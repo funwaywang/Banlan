@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<banlan_swatch name="Xp Icon">
+  <colors>
+    <color type="RGB" R="154" G="0" B="0" />
+    <color type="RGB" R="0" G="0" B="0" />
+    <color type="RGB" R="255" G="51" B="0" />
+    <color type="RGB" R="255" G="121" B="74" />
+    <color type="RGB" R="255" G="153" B="52" />
+    <color type="RGB" R="255" G="219" B="157" />
+    <color type="RGB" R="154" G="102" B="0" />
+    <color type="RGB" R="255" G="204" B="102" />
+    <color type="RGB" R="204" G="153" B="0" />
+    <color type="RGB" R="255" G="204" B="0" />
+    <color type="RGB" R="255" G="255" B="1" />
+    <color type="RGB" R="254" G="255" B="153" />
+    <color type="RGB" R="247" G="250" B="239" />
+    <color type="RGB" R="156" G="205" B="26" />
+    <color type="RGB" R="166" G="218" B="45" />
+    <color type="RGB" R="134" G="198" B="35" />
+    <color type="RGB" R="125" G="195" B="46" />
+    <color type="RGB" R="117" G="190" B="36" />
+    <color type="RGB" R="169" G="216" B="123" />
+    <color type="RGB" R="181" G="220" B="147" />
+    <color type="RGB" R="103" G="203" B="51" />
+    <color type="RGB" R="154" G="254" B="102" />
+    <color type="RGB" R="54" G="129" B="22" />
+    <color type="RGB" R="78" G="148" B="49" />
+    <color type="RGB" R="74" G="134" B="58" />
+    <color type="RGB" R="59" G="133" B="44" />
+    <color type="RGB" R="185" G="216" B="180" />
+    <color type="RGB" R="51" G="114" B="43" />
+    <color type="RGB" R="50" G="116" B="44" />
+    <color type="RGB" R="205" G="255" B="204" />
+    <color type="RGB" R="0" G="153" B="0" />
+    <color type="RGB" R="0" G="102" B="0" />
+    <color type="RGB" R="131" G="208" B="172" />
+    <color type="RGB" R="90" G="154" B="125" />
+    <color type="RGB" R="2" G="49" B="28" />
+    <color type="RGB" R="221" G="224" B="224" />
+    <color type="RGB" R="223" G="254" B="255" />
+    <color type="RGB" R="0" G="130" B="214" />
+    <color type="RGB" R="0" G="153" B="255" />
+    <color type="RGB" R="181" G="226" B="255" />
+    <color type="RGB" R="62" G="153" B="223" />
+    <color type="RGB" R="153" G="205" B="255" />
+    <color type="RGB" R="0" G="102" B="203" />
+    <color type="RGB" R="117" G="150" B="187" />
+    <color type="RGB" R="105" G="141" B="186" />
+    <color type="RGB" R="0" G="51" B="153" />
+    <color type="RGB" R="204" G="204" B="255" />
+    <color type="RGB" R="102" G="102" B="154" />
+    <color type="RGB" R="153" G="153" B="205" />
+    <color type="RGB" R="51" G="51" B="103" />
+    <color type="RGB" R="103" G="102" B="204" />
+    <color type="RGB" R="154" G="153" B="255" />
+    <color type="RGB" R="254" G="204" B="255" />
+  </colors>
+</banlan_swatch>

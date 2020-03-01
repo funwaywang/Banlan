@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Banlan">    
+    <Style TargetType="TextBlock" x:Key="IconBlockStyle">
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    
+    <DrawingImage x:Key="icon_folder_open">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V512 H576 V0 H0 Z">
+                <GeometryDrawing Brush="#F57F17" Geometry="F1 M576,512z M0,0z M527.9,224L480,224 480,176C480,149.5,458.5,128,432,128L272,128 208,64 48,64C21.5,64,0,85.5,0,112L0,400C0,426.5,21.5,448,48,448L448,448C464.5,448,479.9,439.5,488.7,425.4L568.6,297.4C588.6,265.5,565.6,224,527.9,224z M48,118C48,114.7,50.7,112,54,112L188.1,112 252.1,176 426,176C429.3,176,432,178.7,432,182L432,224 152,224C135.2,224,119.6,232.8,110.9,247.2L48,351.4z M448,400L72,400 149.2,272 528,272z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="icon_save">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                <GeometryDrawing Brush="#3F51B5" Geometry="F1 M448,512z M0,0z M433.941,129.941L350.059,46.059A48,48,0,0,0,316.118,32L48,32C21.49,32,0,53.49,0,80L0,432C0,458.51,21.49,480,48,480L400,480C426.51,480,448,458.51,448,432L448,163.882A48,48,0,0,0,433.941,129.941z M272,80L272,160 144,160 144,80 272,80z M394,432L54,432A6,6,0,0,1,48,426L48,86A6,6,0,0,1,54,80L96,80 96,184C96,197.255,106.745,208,120,208L296,208C309.255,208,320,197.255,320,184L320,83.882 398.243,162.125A6,6,0,0,1,400,166.368L400,426A6,6,0,0,1,394,432z M224,232C175.477,232 136,271.477 136,320 136,368.523 175.477,408 224,408 272.523,408 312,368.523 312,320 312,271.477 272.523,232 224,232z M224,360C201.944,360 184,342.056 184,320 184,297.944 201.944,280 224,280 246.056,280 264,297.944 264,320 264,342.056 246.056,360 224,360z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="icon_image">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                <GeometryDrawing Brush="#4CAF50" Geometry="F1 M512,512z M0,0z M464,64L48,64C21.49,64,0,85.49,0,112L0,400C0,426.51,21.49,448,48,448L464,448C490.51,448,512,426.51,512,400L512,112C512,85.49,490.51,64,464,64z M458,400L54,400A6,6,0,0,1,48,394L48,118A6,6,0,0,1,54,112L458,112A6,6,0,0,1,464,118L464,394A6,6,0,0,1,458,400z M128,152C105.909,152 88,169.909 88,192 88,214.091 105.909,232 128,232 150.091,232 168,214.091 168,192 168,169.909 150.091,152 128,152z M96,352L416,352 416,272 328.485,184.485C323.799,179.799,316.201,179.799,311.514,184.485L192,304 152.485,264.485C147.799,259.799,140.201,259.799,135.514,264.485L96,304 96,352z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+</ResourceDictionary>

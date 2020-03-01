@@ -1,0 +1,111 @@
+﻿<local:DocumentView x:Class="Banlan.SwatchView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="clr-namespace:Banlan"
+                    mc:Ignorable="d" 
+                    d:DesignHeight="450" d:DesignWidth="800">
+    <local:DocumentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/ColorList.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </local:DocumentView.Resources>
+    <local:DocumentView.Icon>
+        <TextBlock FontFamily="Segoe MDL2 Assets">&#xE790;</TextBlock>
+    </local:DocumentView.Icon>
+    <local:DocumentView.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Properties" Executed="Properties_Executed" />
+        <CommandBinding Command="local:Commands.SortBy" Executed="SortBy_Executed" />
+        <CommandBinding Command="local:Commands.SelectColor" Executed="SelectColor_Executed" />
+        <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed" CanExecute="Delete_CanExecute" />
+        <CommandBinding Command="local:Commands.ExpandAll" Executed="ExpandAll_Executed" />
+        <CommandBinding Command="local:Commands.CollapseAll" Executed="CollapseAll_Executed" />
+    </local:DocumentView.CommandBindings>
+    <Grid Background="{DynamicResource ResourceKey={x:Static SystemColors.WindowBrushKey}}"
+          TextElement.Foreground="{DynamicResource ResourceKey={x:Static SystemColors.WindowTextBrushKey}}" 
+          DataContext="{Binding Swatch, RelativeSource={RelativeSource AncestorType=local:DocumentView}}">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <local:BooleanToVisibilityConverter IsReversed="True" x:Key="BooleanToVisibilityConverterR" />
+            <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+
+            <ControlTemplate x:Key="CategoryTemplate" TargetType="ListBoxItem">
+                <Expander Name="OutBox" Margin="0,2"
+                          IsExpanded="{Binding IsOpen}"
+                          Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverterR}}"
+                          Header="{Binding Name}">
+                    <ListBox ItemsSource="{Binding Colors}"
+                             ItemContainerStyle="{StaticResource ColorListItemStyle}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             BorderThickness="0"
+                             Visibility="{Binding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ListBox">
+                                <WrapPanel IsItemsHost="True" Style="{DynamicResource ColorListPanelStyle}" Margin="0"></WrapPanel>
+                            </ControlTemplate>
+                        </ListBox.Template>
+                    </ListBox>
+                </Expander>
+            </ControlTemplate>
+            <ControlTemplate x:Key="AloneTemplate" TargetType="ListBoxItem">
+                <Border>
+                    <ListBox ItemsSource="{Binding Colors}"
+                             ItemContainerStyle="{StaticResource ColorListItemStyle}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             BorderThickness="0"
+                             Visibility="{Binding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ListBox">
+                                <WrapPanel IsItemsHost="True" Style="{DynamicResource ColorListPanelStyle}" Margin="0"></WrapPanel>
+                            </ControlTemplate>
+                        </ListBox.Template>
+                    </ListBox>
+                </Border>
+            </ControlTemplate>
+        </Grid.Resources>
+        <ListBox BorderThickness="0"
+                 Margin="1"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.CanContentScroll="False"
+                 ItemsSource="{Binding Categories}">
+            <ListBox.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <StackPanel Orientation="Vertical" IsItemsHost="True" />
+                </ControlTemplate>
+            </ListBox.Template>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Template" Value="{StaticResource AloneTemplate}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <Separator />
+                                <MenuItem Command="local:Commands.ExpandAll" />
+                                <MenuItem Command="local:Commands.CollapseAll" />
+                                <MenuItem Header="Sort By">
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="Name" Header="Name" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="R" Header="Red" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="G" Header="Green" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="B" Header="Blue" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="H" Header="Hue" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="S" Header="Saturation" />
+                                    <MenuItem Command="local:Commands.SortBy" CommandParameter="L" Header="Lightness" />
+                                </MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Swatch.HasCategories, RelativeSource={RelativeSource AncestorType=local:DocumentView}}" Value="True">
+                            <Setter Property="Template" Value="{StaticResource CategoryTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </Grid>
+</local:DocumentView>
