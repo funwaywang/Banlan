@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="66.97334"
-     inkscape:cy="52.403239"
+     inkscape:cx="179.60535"
+     inkscape:cy="54.961249"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -120,48 +120,76 @@
          style="opacity:1;fill:#9c2128;fill-opacity:1;stroke:none;stroke-width:0.2898365;stroke-opacity:0.26666667" />
     </g>
     <path
-       style="display:inline;opacity:1;fill:#f4bd48;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="display:inline;opacity:1;fill:#f4bd48;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 25.702629,269.2004 c -0.675555,-1.1701 -2.195703,-1.54817 -3.408617,-0.84791 l -17.2715819,9.97176 c -0.00351,0.002 -0.00697,0.005 -0.010102,0.007 a 10,10 0 0 0 -0.014448,0.008 10,10 0 0 0 -3.6602176,13.66013 10,10 0 0 0 13.6603885,3.66067 10,10 0 0 0 3.659967,-13.66057 10,10 0 0 0 -3.795411,-3.72329 l 9.870304,-5.69861 c 1.212912,-0.70029 1.645319,-2.20626 0.969812,-3.37634 z m -11.374985,15.29838 a 5.0000001,5.0000001 0 0 1 -1.82976,6.83017 5.0000001,5.0000001 0 0 1 -6.8304098,-1.83021 5.0000001,5.0000001 0 0 1 1.830459,-6.82997 5.0000001,5.0000001 0 0 1 6.8297108,1.83001 z"
        id="path4589-8-0"
        inkscape:connector-curvature="0"
        inkscape:label="b2"
        inkscape:transform-center-y="-4.4972117"
        inkscape:transform-center-x="-3.0096097"
-       inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
-       inkscape:export-xdpi="11.712434"
-       inkscape:export-ydpi="11.712434" />
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597" />
     <path
-       style="display:inline;opacity:1;fill:#9c2128;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="display:inline;opacity:1;fill:#9c2128;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 18.668671,264.90314 c -1.035013,-0.86848 -2.592798,-0.70383 -3.493058,0.36904 L 2.3561902,280.5498 c -0.00244,0.003 -0.00491,0.007 -0.00729,0.01 a 10,10 0 0 0 -0.011002,0.0123 10,10 0 0 0 1.2325582,14.08819 10,10 0 0 0 14.0885766,-1.23222 10,10 0 0 0 -1.23295,-14.08852 10,10 0 0 0 -4.839949,-2.20064 l 7.326003,-8.73079 c 0.900253,-1.07288 0.791508,-2.63593 -0.243516,-3.5044 z m -5.456634,18.26625 a 5.0000001,5.0000001 0 0 1 0.616638,7.04407 5.0000001,5.0000001 0 0 1 -7.0444556,0.61631 5.0000001,5.0000001 0 0 1 -0.6159124,-7.04412 5.0000001,5.0000001 0 0 1 7.04373,-0.61626 z"
        id="path4589-8-2"
        inkscape:connector-curvature="0"
        inkscape:label="b2"
        inkscape:transform-center-y="-6.3245275"
        inkscape:transform-center-x="0.0016987774"
-       inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
-       inkscape:export-xdpi="11.712434"
-       inkscape:export-ydpi="11.712434" />
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597" />
     <path
-       style="display:inline;opacity:1;fill:#395a8e;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="display:inline;opacity:1;fill:#395a8e;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 10.589171,263.27078 c -1.2696323,-0.46211 -2.6771592,0.22541 -3.1561755,1.54149 l -6.82107379,18.74075 c -0.001375,0.004 -0.002228,0.008 -0.003578,0.0113 a 10,10 0 0 0 -0.006143,0.0154 10,10 0 0 0 5.97666889,12.81701 10,10 0 0 0 12.8174934,-5.9765 10,10 0 0 0 -5.977155,-12.81718 10,10 0 0 0 -5.3007229,-0.4126 l 3.8980849,-10.7099 c 0.479017,-1.31609 -0.157767,-2.74768 -1.427399,-3.20978 z m 1.119864,19.03094 a 5,5 0 0 1 2.988666,6.40835 5,5 0 0 1 -6.4088351,2.98849 5,5 0 0 1 -2.9880029,-6.40866 5,5 0 0 1 6.408172,-2.98818 z"
        id="path4589-8"
        inkscape:connector-curvature="0"
        inkscape:label="b2"
        inkscape:transform-center-y="-6.9341282"
        inkscape:transform-center-x="0.00088394255"
-       inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
-       inkscape:export-xdpi="11.712434"
-       inkscape:export-ydpi="11.712434" />
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597" />
     <path
-       style="display:inline;opacity:1;fill:#39774f;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="display:inline;opacity:1;fill:#39774f;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 2.4386071,264.50024 c -1.3511136,0 -2.4386048553242,1.12746 -2.4386129236903,2.528 l 6.998648e-6,19.9435 c 1.319230323e-4,0.004 3.966029023e-4,0.008 7.155583023e-4,0.012 a 10,10 0 0 0 -3.3962709e-4,0.0165 10,10 0 0 0 9.99989789383,9.9999 10,10 0 0 0 10.000436,-9.99989 10,10 0 0 0 -10.000434,-9.99991 10,10 0 0 0 -5.1221616,1.42527 l 1.62e-5,-11.39723 c -1.58e-5,-1.40056 -1.0880267,-2.52802 -2.4391314,-2.52802 z m 7.5612955,17.50022 a 5.0000001,5.0000001 0 0 1 5.0002154,4.9997 5.0000001,5.0000001 0 0 1 -5.0002089,5.00021 5.0000001,5.0000001 0 0 1 -4.9996968,-5.00021 5.0000001,5.0000001 0 0 1 4.9996903,-4.9997 z"
        id="path4589-8-4"
        inkscape:connector-curvature="0"
        inkscape:label="b2"
        inkscape:transform-center-y="-6.2473652"
        inkscape:transform-center-x="-0.00018773079"
-       inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
-       inkscape:export-xdpi="11.712434"
-       inkscape:export-ydpi="11.712434" />
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.93333244px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="25.190155"
+       y="296.09204"
+       id="text826"
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597"><tspan
+         sodipodi:role="line"
+         id="tspan824"
+         x="25.190155"
+         y="296.09204"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.93333244px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332">Banlan</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="49.308575"
+       y="279.69431"
+       id="text830"
+       inkscape:export-filename="C:\Codes\banlan\Resources\band\256.png"
+       inkscape:export-xdpi="84.733597"
+       inkscape:export-ydpi="84.733597"><tspan
+         sodipodi:role="line"
+         id="tspan828"
+         x="49.308575"
+         y="279.69431"
+         style="font-size:14.11111069px;stroke-width:0.26458332">斑斓</tspan></text>
   </g>
 </svg>
