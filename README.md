@@ -1,4 +1,4 @@
-# Banlan
+# ![Banlan](https://github.com/funwaywang/Banlan/blob/master/Documents/Images/band_160.png "Banlan")
 Banlan Color Swatch Manage Tool
 1. Load/Save some color swatch files (e.g., aco/act/ase/pal/gpl/txt)
 2. Extract color table from gif image
