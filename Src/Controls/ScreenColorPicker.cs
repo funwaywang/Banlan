@@ -141,10 +141,14 @@ namespace Banlan
             {
                 try
                 {
-                    using var bitmap = new System.Drawing.Bitmap(width, height);
-                    using var graphics = System.Drawing.Graphics.FromImage(bitmap);
-                    graphics.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(width, height), System.Drawing.CopyPixelOperation.SourceCopy);
-                    screenShot = new BitmapData(bitmap);
+                    using (var bitmap = new System.Drawing.Bitmap(width, height))
+                    {
+                        using (var graphics = System.Drawing.Graphics.FromImage(bitmap))
+                        {
+                            graphics.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(width, height), System.Drawing.CopyPixelOperation.SourceCopy);
+                            screenShot = new BitmapData(bitmap);
+                        }
+                    }
                 }
                 catch
                 {

@@ -44,62 +44,64 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new BigEndianBinaryReader(stream);
-            var signature = Encoding.ASCII.GetString(reader.ReadBytes(4));
-            if (signature != "ASEF")
+            using (var reader = new BigEndianBinaryReader(stream))
             {
-                throw new Exception("Invalid File Format.");
-            }
-
-            var majorVersion = reader.ReadInt16();
-            var minorVersion = reader.ReadInt16();
-            var blocks = reader.ReadUInt32();
-
-            var swatch = new Swatch();
-            Category category = swatch;
-            var categoryStack = new Stack<Category>();
-
-            for (int i = 0; i < blocks; i++)
-            {
-                var blockType = (BlockType)reader.ReadUInt16();
-                var blockLength = reader.ReadUInt32();
-                var position = stream.Position;
-                string name = null;
-
-                switch (blockType)
+                var signature = Encoding.ASCII.GetString(reader.ReadBytes(4));
+                if (signature != "ASEF")
                 {
-                    case BlockType.Color:
-                        name = ReadName(reader);
-                        var color = ReadColorBlock(reader);
-                        if (color != null)
-                        {
-                            color.Name = name;
-                            category.Colors.Add(color);
-                        }
-                        break;
-                    case BlockType.GroupStart:
-                        name = ReadName(reader);
-                        categoryStack.Push(category);
-                        category = new Category
-                        {
-                            Name = name
-                        };
-                        swatch.Categories.Add(category);
-                        break;
-                    case BlockType.GroupEnd:
-                        category = categoryStack.Pop() ?? swatch;
-                        break;
+                    throw new Exception("Invalid File Format.");
                 }
 
-                // move to next block
-                var nextPosition = position + blockLength;
-                if (stream.Position < nextPosition && i < blocks - 1)
-                {
-                    stream.Seek(nextPosition - stream.Position, SeekOrigin.Current);
-                }
-            }
+                var majorVersion = reader.ReadInt16();
+                var minorVersion = reader.ReadInt16();
+                var blocks = reader.ReadUInt32();
 
-            return swatch;
+                var swatch = new Swatch();
+                Category category = swatch;
+                var categoryStack = new Stack<Category>();
+
+                for (int i = 0; i < blocks; i++)
+                {
+                    var blockType = (BlockType)reader.ReadUInt16();
+                    var blockLength = reader.ReadUInt32();
+                    var position = stream.Position;
+                    string name = null;
+
+                    switch (blockType)
+                    {
+                        case BlockType.Color:
+                            name = ReadName(reader);
+                            var color = ReadColorBlock(reader);
+                            if (color != null)
+                            {
+                                color.Name = name;
+                                category.Colors.Add(color);
+                            }
+                            break;
+                        case BlockType.GroupStart:
+                            name = ReadName(reader);
+                            categoryStack.Push(category);
+                            category = new Category
+                            {
+                                Name = name
+                            };
+                            swatch.Categories.Add(category);
+                            break;
+                        case BlockType.GroupEnd:
+                            category = categoryStack.Pop() ?? swatch;
+                            break;
+                    }
+
+                    // move to next block
+                    var nextPosition = position + blockLength;
+                    if (stream.Position < nextPosition && i < blocks - 1)
+                    {
+                        stream.Seek(nextPosition - stream.Position, SeekOrigin.Current);
+                    }
+                }
+
+                return swatch;
+            }
         }
 
         private string ReadName(BigEndianBinaryReader reader)
@@ -158,48 +160,50 @@ namespace Banlan.SwatchFiles
 
         public void Save(Swatch swatch, Stream stream)
         {
-            using var writer = new BigEndianBinaryWriter(stream);
-            writer.Write(Encoding.ASCII.GetBytes("ASEF")); // signature
-            writer.Write((ushort)1); // major Version
-            writer.Write((ushort)0); // minor Version
-
-            var blockNumber = swatch.Colors.Count + swatch.Categories.Count * 2 + swatch.Categories.SelectMany(c => c.Colors).Count();
-            writer.Write(blockNumber);
-
-            WriteColors(writer, swatch.Colors);
-            foreach (var category in swatch.Categories)
+            using (var writer = new BigEndianBinaryWriter(stream))
             {
-                writer.Write((ushort)BlockType.GroupStart);
+                writer.Write(Encoding.ASCII.GetBytes("ASEF")); // signature
+                writer.Write((ushort)1); // major Version
+                writer.Write((ushort)0); // minor Version
 
-                var blockLength = 0;
-                byte[] nameBytes = null;
-                var name = category.Name ?? "";
-                if (name != null)
-                {
-                    nameBytes = Encoding.BigEndianUnicode.GetBytes(name);
-                    blockLength += 2 + nameBytes.Length + 2;
-                }
-                else
-                {
-                    blockLength += 2;
-                }
+                var blockNumber = swatch.Colors.Count + swatch.Categories.Count * 2 + swatch.Categories.SelectMany(c => c.Colors).Count();
+                writer.Write(blockNumber);
 
-                writer.Write(blockLength);
-                if (nameBytes != null)
+                WriteColors(writer, swatch.Colors);
+                foreach (var category in swatch.Categories)
                 {
-                    writer.Write((short)(name.Length + 1));
-                    writer.Write(nameBytes);
-                    writer.Write(new byte[] { 0, 0 });
-                }
-                else
-                {
-                    writer.Write((short)0);
-                }
+                    writer.Write((ushort)BlockType.GroupStart);
 
-                WriteColors(writer, category.Colors);
+                    var blockLength = 0;
+                    byte[] nameBytes = null;
+                    var name = category.Name ?? "";
+                    if (name != null)
+                    {
+                        nameBytes = Encoding.BigEndianUnicode.GetBytes(name);
+                        blockLength += 2 + nameBytes.Length + 2;
+                    }
+                    else
+                    {
+                        blockLength += 2;
+                    }
 
-                writer.Write((ushort)BlockType.GroupEnd);
-                writer.Write(0);
+                    writer.Write(blockLength);
+                    if (nameBytes != null)
+                    {
+                        writer.Write((short)(name.Length + 1));
+                        writer.Write(nameBytes);
+                        writer.Write(new byte[] { 0, 0 });
+                    }
+                    else
+                    {
+                        writer.Write((short)0);
+                    }
+
+                    WriteColors(writer, category.Colors);
+
+                    writer.Write((ushort)BlockType.GroupEnd);
+                    writer.Write(0);
+                }
             }
         }
 
@@ -221,7 +225,7 @@ namespace Banlan.SwatchFiles
                     colorMode = "Gray";
                     data = new float[] { gray.Value };
                 }
-                else if(color is LabColor lab)
+                else if (color is LabColor lab)
                 {
                     colorMode = "LAB ";
                     data = new float[] { lab.L / 100f, lab.a / 100f, lab.b / 100f };

@@ -274,12 +274,14 @@ namespace Banlan
                 throw new FileNotFoundException();
             }
 
-            using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            var imageData = await BitmapData.LoadStreamAsync(stream);
-            stream.Position = 0;
-            var previewImage = await ImageHelper.LoadBitmapImageAsync(stream);
+            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                var imageData = await BitmapData.LoadStreamAsync(stream);
+                stream.Position = 0;
+                var previewImage = await ImageHelper.LoadBitmapImageAsync(stream);
 
-            return new ExtractImageColorsView(imageData, previewImage, filename);
+                return new ExtractImageColorsView(imageData, previewImage, filename);
+            }
         }
 
         private void Reanalyse_Executed(object sender, ExecutedRoutedEventArgs e)

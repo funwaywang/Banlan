@@ -43,28 +43,29 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new BigEndianBinaryReader(stream);
-
-            var version = reader.ReadInt16();
-            var count = reader.ReadInt16();
-            var swatch = new Swatch();
-            if (count * 10 + 4 < stream.Length)
+            using (var reader = new BigEndianBinaryReader(stream))
             {
-                // version 2
-                stream.Seek(count * 10, SeekOrigin.Current);
-                version = reader.ReadInt16();
-                count = reader.ReadInt16();
-                if (count > 0)
+                var version = reader.ReadInt16();
+                var count = reader.ReadInt16();
+                var swatch = new Swatch();
+                if (count * 10 + 4 < stream.Length)
                 {
-                    ReadColors(reader, swatch, count, 2);
+                    // version 2
+                    stream.Seek(count * 10, SeekOrigin.Current);
+                    version = reader.ReadInt16();
+                    count = reader.ReadInt16();
+                    if (count > 0)
+                    {
+                        ReadColors(reader, swatch, count, 2);
+                    }
                 }
-            }
-            else if (count > 0) // version 1
-            {
-                ReadColors(reader, swatch, count, 1);
-            }
+                else if (count > 0) // version 1
+                {
+                    ReadColors(reader, swatch, count, 1);
+                }
 
-            return swatch;
+                return swatch;
+            }
         }
 
         private void ReadColors(BinaryReader reader, Swatch swatch, int count, short version)
@@ -119,10 +120,12 @@ namespace Banlan.SwatchFiles
 
         public void Save(Swatch swatch, Stream stream)
         {
-            using var writer = new BigEndianBinaryWriter(stream);
-            var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors)).ToList();
-            WriteColors(writer, colors, 1);
-            WriteColors(writer, colors, 2);
+            using (var writer = new BigEndianBinaryWriter(stream))
+            {
+                var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors)).ToList();
+                WriteColors(writer, colors, 1);
+                WriteColors(writer, colors, 2);
+            }
         }
 
         void WriteColors(BinaryWriter writer, List<ColorBase> colors, ushort version)

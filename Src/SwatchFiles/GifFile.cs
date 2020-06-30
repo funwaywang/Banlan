@@ -26,101 +26,103 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new BinaryReader(stream);
-            if (Encoding.ASCII.GetString(reader.ReadBytes(3)) != "GIF")
+            using (var reader = new BinaryReader(stream))
             {
-                throw new Exception("Invalid File Format.");
-            }
-
-            var version = Encoding.ASCII.GetString(reader.ReadBytes(3)); // "87a" or "89a"
-            stream.Seek(4, SeekOrigin.Current);
-            var flags = reader.ReadByte();
-            var globalTableSize = 1 << ((flags & 0b00000111) + 1);
-            var colotTableSorted = (flags & 0b00001000) > 0;
-            var hasGlobalTable = (flags & 0b10000000) > 0;
-            stream.Seek(2, SeekOrigin.Current);
-
-            var swatch = new Swatch();
-            var colorSet = new HashSet<int>();
-            if (hasGlobalTable)
-            {
-                for (int i = 0; i < globalTableSize; i++)
+                if (Encoding.ASCII.GetString(reader.ReadBytes(3)) != "GIF")
                 {
-                    var rgb = reader.ReadBytes(3);
-                    var value = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-                    if (!colorSet.Contains(value))
-                    {
-                        colorSet.Add(value);
-                        swatch.Colors.Add(new RgbColor(rgb[0], rgb[1], rgb[2]));
-                    }
+                    throw new Exception("Invalid File Format.");
                 }
-            }
 
-            var label = reader.ReadBytes(1);
-            while (label.Length == 1 && label[0] != 0x3b)
-            {
-                if (label[0] == 0x21)
+                var version = Encoding.ASCII.GetString(reader.ReadBytes(3)); // "87a" or "89a"
+                stream.Seek(4, SeekOrigin.Current);
+                var flags = reader.ReadByte();
+                var globalTableSize = 1 << ((flags & 0b00000111) + 1);
+                var colotTableSorted = (flags & 0b00001000) > 0;
+                var hasGlobalTable = (flags & 0b10000000) > 0;
+                stream.Seek(2, SeekOrigin.Current);
+
+                var swatch = new Swatch();
+                var colorSet = new HashSet<int>();
+                if (hasGlobalTable)
                 {
-                    // this is a extension block
-                    reader.ReadByte();
-                    var size = reader.ReadByte();
-                    stream.Seek(size, SeekOrigin.Current);
-                    var subBlockSize = reader.ReadByte();
-                    while (subBlockSize > 0)
+                    for (int i = 0; i < globalTableSize; i++)
                     {
-                        stream.Seek(subBlockSize, SeekOrigin.Current);
-                        subBlockSize = reader.ReadByte();
-                    }
-                }
-                else if (label[0] == 0x2c)
-                {
-                    // this is a image data block
-                    var frame = reader.ReadBytes(9);
-                    if (frame.Length == 9)
-                    {
-                        var flag = frame[8];
-                        var hasLocalTable = (flag & 0b10000000) > 1;
-                        if (hasLocalTable)
+                        var rgb = reader.ReadBytes(3);
+                        var value = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+                        if (!colorSet.Contains(value))
                         {
-                            var localTableSize = 1 << ((flag & 0b00000111) + 1);
-                            for (int i = 0; i < localTableSize; i++)
+                            colorSet.Add(value);
+                            swatch.Colors.Add(new RgbColor(rgb[0], rgb[1], rgb[2]));
+                        }
+                    }
+                }
+
+                var label = reader.ReadBytes(1);
+                while (label.Length == 1 && label[0] != 0x3b)
+                {
+                    if (label[0] == 0x21)
+                    {
+                        // this is a extension block
+                        reader.ReadByte();
+                        var size = reader.ReadByte();
+                        stream.Seek(size, SeekOrigin.Current);
+                        var subBlockSize = reader.ReadByte();
+                        while (subBlockSize > 0)
+                        {
+                            stream.Seek(subBlockSize, SeekOrigin.Current);
+                            subBlockSize = reader.ReadByte();
+                        }
+                    }
+                    else if (label[0] == 0x2c)
+                    {
+                        // this is a image data block
+                        var frame = reader.ReadBytes(9);
+                        if (frame.Length == 9)
+                        {
+                            var flag = frame[8];
+                            var hasLocalTable = (flag & 0b10000000) > 1;
+                            if (hasLocalTable)
                             {
-                                var rgb = reader.ReadBytes(3);
-                                var value = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-                                if (!colorSet.Contains(value))
+                                var localTableSize = 1 << ((flag & 0b00000111) + 1);
+                                for (int i = 0; i < localTableSize; i++)
                                 {
-                                    colorSet.Add(value);
-                                    swatch.Colors.Add(new RgbColor(rgb[0], rgb[1], rgb[2]));
-                                    if(swatch.Colors.Count >= 256)
+                                    var rgb = reader.ReadBytes(3);
+                                    var value = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+                                    if (!colorSet.Contains(value))
                                     {
-                                        break;
+                                        colorSet.Add(value);
+                                        swatch.Colors.Add(new RgbColor(rgb[0], rgb[1], rgb[2]));
+                                        if (swatch.Colors.Count >= 256)
+                                        {
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        if (swatch.Colors.Count >= 256)
-                        {
-                            break;
-                        }
+                            if (swatch.Colors.Count >= 256)
+                            {
+                                break;
+                            }
 
-                        // LZW Minimum Code Size
-                        reader.ReadByte();
+                            // LZW Minimum Code Size
+                            reader.ReadByte();
 
-                        // Data Block
-                        var blockSize = reader.ReadByte();
-                        while (blockSize > 0)
-                        {
-                            stream.Seek(blockSize, SeekOrigin.Current);
-                            blockSize = reader.ReadByte();
+                            // Data Block
+                            var blockSize = reader.ReadByte();
+                            while (blockSize > 0)
+                            {
+                                stream.Seek(blockSize, SeekOrigin.Current);
+                                blockSize = reader.ReadByte();
+                            }
                         }
                     }
+
+                    label = reader.ReadBytes(1);
                 }
 
-                label = reader.ReadBytes(1);
+                return swatch;
             }
-
-            return swatch;
         }
 
         public void Save(Swatch swatch, Stream stream)

@@ -1,36 +1,275 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E254D9E-9B77-4DCB-8D60-895E5DBDF682}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>App.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.20.0301</Version>
+    <RootNamespace>Banlan</RootNamespace>
+    <AssemblyName>Banlan</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <None Remove="App.ico" />
-    <None Remove="Resources\Images\camera.png" />
-    <None Remove="Resources\Images\folder.png" />
-    <None Remove="Resources\Images\save.png" />
+    <Reference Include="Colourful, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Colourful.2.0.5\lib\net45\Colourful.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Colourful" Version="2.0.3" />
-    <PackageReference Include="System.Drawing.Common" Version="4.6.1" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AppStatus.cs" />
+    <Compile Include="Commands.cs" />
+    <Compile Include="DocumentView.cs" />
+    <Compile Include="ExtractImageColorsView.xaml.cs">
+      <DependentUpon>ExtractImageColorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HistoryListView.xaml.cs">
+      <DependentUpon>HistoryListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SwatchFiles\AcoFile.cs" />
+    <Compile Include="SwatchFiles\ActFile.cs" />
+    <Compile Include="SwatchFiles\AseFile.cs" />
+    <Compile Include="SwatchFiles\BanlanFile.cs" />
+    <Compile Include="SwatchFiles\CorelDrawPalFile.cs" />
+    <Compile Include="SwatchFiles\GifFile.cs" />
+    <Compile Include="SwatchFiles\GplFile.cs" />
+    <Compile Include="SwatchFiles\HtmlFile.cs" />
+    <Compile Include="SwatchFiles\ISwatchFile.cs" />
+    <Compile Include="SwatchFiles\KctFile.cs" />
+    <Compile Include="SwatchFiles\RiffPalFile.cs" />
+    <Compile Include="SwatchFiles\SwatchFileManage.cs" />
+    <Compile Include="SwatchFiles\TextFile.cs" />
+    <Compile Include="SwatchView.xaml.cs">
+      <DependentUpon>SwatchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\BigEndianBinaryReader.cs" />
+    <Compile Include="Utility\BigEndianBinaryWriter.cs" />
+    <Compile Include="Utility\ColorHelper.cs" />
+    <Compile Include="Utility\ColorHelper.Wpf.cs" />
+    <Compile Include="Utility\DependencyObjectExtensions.cs" />
+    <Compile Include="Utility\FileSizeFormatProvider.cs" />
+    <Compile Include="Utility\IColorTextFormatter.cs" />
+    <Compile Include="Utility\ImageHelper.cs" />
+    <Compile Include="Utility\RectExtensions.cs" />
+    <Compile Include="Utility\Settings.cs" />
+    <Compile Include="Utility\StringHelper.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ColorPoint.cs" />
+    <Compile Include="ViewModels\ColorViewModel.cs" />
+    <Compile Include="ViewModels\SwatchViewModel.cs" />
+    <Page Include="ExtractImageColorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HistoryListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ColorSpaces\CmykColor.cs" />
+    <Compile Include="ColorSpaces\ColorBase.cs" />
+    <Compile Include="ColorSpaces\GrayColor.cs" />
+    <Compile Include="ColorSpaces\HslColor.cs" />
+    <Compile Include="ColorSpaces\HsvColor.cs" />
+    <Compile Include="ColorSpaces\LabColor.cs" />
+    <Compile Include="ColorSpaces\RgbColor.cs" />
+    <Compile Include="Controls\AutoClosePopup.cs" />
+    <Compile Include="Controls\DropDownMenuButton.cs" />
+    <Compile Include="Controls\HistoryColorListBox.cs" />
+    <Compile Include="Controls\ImagePickBox.cs" />
+    <Compile Include="Controls\NumericUpDown.cs" />
+    <Compile Include="Controls\RangeSelectionAdorner.cs" />
+    <Compile Include="Controls\ScreenColorPicker.cs" />
+    <Compile Include="Controls\TabBar.cs" />
+    <Compile Include="Controls\ZoomableCanvas.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\ColorForegroundConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\ColorToTextConverter.cs" />
+    <Compile Include="Converters\IsTopLevelToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\LimitStringConverter.cs" />
+    <Compile Include="Converters\ListEmptyToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\PathToNameConverter.cs" />
+    <Compile Include="Converters\StringIsEmptyConverter.cs" />
+    <Compile Include="Converters\TextLocalConverter.cs" />
+    <Compile Include="Converters\ZoomValueConverter.cs" />
+    <Compile Include="Core\Cluster.cs" />
+    <Compile Include="Core\ColorAnalyser.cs" />
+    <Compile Include="Core\DataPoint.cs" />
+    <Compile Include="Core\KMeans.cs" />
+    <Compile Include="Core\Octree.cs" />
+    <Compile Include="Core\OctreeNode.cs" />
+    <Compile Include="Core\Palette.cs" />
+    <Compile Include="Localization\ILocalizable.cs" />
+    <Compile Include="Localization\Lang.cs" />
+    <Compile Include="Localization\LangId.cs" />
+    <Compile Include="Localization\Language.cs" />
+    <Compile Include="Localization\LanguageCompatibleItem.cs" />
+    <Compile Include="Localization\LanguageExtensions.cs" />
+    <Compile Include="Localization\LanguageManage.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SwatchView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ColorFormatComboBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ColorList.Drop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ColorList.Squama.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ColorList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ImagePickBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TabBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\BitmapData.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Swatch.cs" />
+    <Compile Include="Models\SwatchFileSummary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="App.ico" />
+    <Resource Include="Langs\en.US.xml" />
+    <Resource Include="Langs\zh.CHS.xml" />
     <Resource Include="Resources\Images\camera.png" />
+    <Resource Include="Resources\Images\flat-jewels-icon-set.txt" />
     <Resource Include="Resources\Images\folder.png" />
     <Resource Include="Resources\Images\save.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="Langs\en.US.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Langs\zh.CHS.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

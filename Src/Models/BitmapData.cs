@@ -79,8 +79,10 @@ namespace Banlan
         {
             x = Math.Max(0, Math.Min(Width - 1, x));
             y = Math.Max(0, Math.Min(Height - 1, y));
-            var bytes = BitData.AsSpan(y * Stride + x * PixelBytes, 4);
-            return Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+
+            var span = new byte[4];
+            Buffer.BlockCopy(BitData, y * Stride + x * PixelBytes, span, 0, 4);
+            return Color.FromArgb(span[3], span[2], span[1], span[0]);
         }
 
         public virtual bool TryGetPixel(int x, int y, out Color? color)
@@ -91,8 +93,9 @@ namespace Banlan
                 return false;
             }
 
-            var bytes = BitData.AsSpan(y * Stride + x * PixelBytes, 4);
-            color = Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+            var span = new byte[4];
+            Buffer.BlockCopy(BitData, y * Stride + x * PixelBytes, span, 0, 4);
+            color = Color.FromArgb(span[3], span[2], span[1], span[0]);
             return true;
         }
 
@@ -104,8 +107,9 @@ namespace Banlan
                 return false;
             }
 
-            var bytes = BitData.AsSpan(y * Stride + x * PixelBytes, 4);
-            color = System.Windows.Media.Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+            var span = new byte[4];
+            Buffer.BlockCopy(BitData, y * Stride + x * PixelBytes, span, 0, 4);
+            color = System.Windows.Media.Color.FromArgb(span[3], span[2], span[1], span[0]);
             return true;
         }
 
@@ -118,9 +122,13 @@ namespace Banlan
         {
             if (!string.IsNullOrEmpty(filename) && File.Exists(filename))
             {
-                using var image = Image.FromFile(filename);
-                using var bitmap = new Bitmap(image);
-                return new BitmapData(bitmap);
+                using (var image = Image.FromFile(filename))
+                {
+                    using (var bitmap = new Bitmap(image))
+                    {
+                        return new BitmapData(bitmap);
+                    }
+                }
             }
             else
             {
@@ -135,9 +143,13 @@ namespace Banlan
 
         public static BitmapData LoadStream(FileStream stream)
         {
-            using var image = Image.FromStream(stream);
-            using var bitmap = new Bitmap(image);
-            return new BitmapData(bitmap);
+            using (var image = Image.FromStream(stream))
+            {
+                using (var bitmap = new Bitmap(image))
+                {
+                    return new BitmapData(bitmap);
+                }
+            }
         }
 
         public Point? GetPoint(int position)

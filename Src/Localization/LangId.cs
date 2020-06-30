@@ -15,19 +15,19 @@ namespace Banlan
 
             if (value != null)
             {
-                if (value.EndsWith(':'))
+                if (value.EndsWith(":"))
                 {
-                    LanguageId = value[0..^1];
+                    LanguageId = value.Substring(0, value.Length - 1);
                     WithColon = true;
                 }
-                else if (value.EndsWith('…'))
+                else if (value.EndsWith("…"))
                 {
-                    LanguageId = value[0..^1];
+                    LanguageId = value.Substring(0, value.Length - 1);
                     WithEllipsis = true;
                 }
                 else if (value.EndsWith("..."))
                 {
-                    LanguageId = value[0..^3];
+                    LanguageId = value.Substring(0, value.Length - 3);
                     WithEllipsis = true;
                 }
                 else

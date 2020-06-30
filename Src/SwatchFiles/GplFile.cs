@@ -29,50 +29,54 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new StreamReader(stream);
-            if (reader.ReadLine() != "GIMP Palette")
+            using (var reader = new StreamReader(stream))
             {
-                throw new Exception("Invalid File Format.");
-            }
-
-            var swatch = new Swatch();
-            var name = reader.ReadLine();
-            if (name.StartsWith("Name:"))
-            {
-                swatch.Name = name[5..].Trim();
-            }
-
-            while (reader.ReadLine() != "#")
-            {
-            }
-
-            var line = reader.ReadLine();
-            while (line != null)
-            {
-                if (ColorLineRegex.Match(line) is Match match && match.Success)
+                if (reader.ReadLine() != "GIMP Palette")
                 {
-                    swatch.Colors.Add(new RgbColor(Convert.ToByte(match.Groups[1].Value), Convert.ToByte(match.Groups[2].Value), Convert.ToByte(match.Groups[3].Value))
-                    {
-                        Name = match.Groups[4].Value
-                    });
+                    throw new Exception("Invalid File Format.");
                 }
-                line = reader.ReadLine();
-            }
 
-            return swatch;
+                var swatch = new Swatch();
+                var name = reader.ReadLine();
+                if (name.StartsWith("Name:"))
+                {
+                    swatch.Name = name.Substring(5, name.Length - 5).Trim();
+                }
+
+                while (reader.ReadLine() != "#")
+                {
+                }
+
+                var line = reader.ReadLine();
+                while (line != null)
+                {
+                    if (ColorLineRegex.Match(line) is Match match && match.Success)
+                    {
+                        swatch.Colors.Add(new RgbColor(Convert.ToByte(match.Groups[1].Value), Convert.ToByte(match.Groups[2].Value), Convert.ToByte(match.Groups[3].Value))
+                        {
+                            Name = match.Groups[4].Value
+                        });
+                    }
+                    line = reader.ReadLine();
+                }
+
+                return swatch;
+            }
         }
 
         public void Save(Swatch swatch, Stream stream)
         {
-            using var writer = new StreamWriter(stream);
-            writer.WriteLine("GIMP Palette");
-            writer.WriteLine($"Name: {swatch.Name}");
-            writer.WriteLine("#");
-
-            var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors));
-            foreach (var c in colors)
+            using (var writer = new StreamWriter(stream))
             {
-                writer.WriteLine("{0} {1} {2}\t{3}", c.R.ToString().PadLeft(3, ' '), c.G.ToString().PadLeft(3, ' '), c.B.ToString().PadLeft(3, ' '), c.Name);
+                writer.WriteLine("GIMP Palette");
+                writer.WriteLine($"Name: {swatch.Name}");
+                writer.WriteLine("#");
+
+                var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors));
+                foreach (var c in colors)
+                {
+                    writer.WriteLine("{0} {1} {2}\t{3}", c.R.ToString().PadLeft(3, ' '), c.G.ToString().PadLeft(3, ' '), c.B.ToString().PadLeft(3, ' '), c.Name);
+                }
             }
         }
     }

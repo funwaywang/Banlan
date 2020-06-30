@@ -29,10 +29,12 @@ namespace Banlan.SwatchFiles
 
         public void Load(string filename, Swatch swatch)
         {
-            using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            var dom = new XmlDocument();
-            dom.Load(stream);
-            Load(dom, swatch);
+            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                var dom = new XmlDocument();
+                dom.Load(stream);
+                Load(dom, swatch);
+            }
         }
 
         public Swatch Load(Stream stream)
@@ -76,8 +78,10 @@ namespace Banlan.SwatchFiles
 
         public void Save(Swatch swatch, string filename)
         {
-            using var stream = new FileStream(filename, FileMode.Create, FileAccess.Write);
-            Save(swatch, stream);
+            using (var stream = new FileStream(filename, FileMode.Create, FileAccess.Write))
+            {
+                Save(swatch, stream);
+            }
         }
 
         private void ReadColors(IList<ColorBase> colors, XmlElement xmlElement)

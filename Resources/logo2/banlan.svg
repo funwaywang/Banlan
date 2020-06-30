@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="11.251451"
+   inkscape:export-xdpi="11.251451"
+   inkscape:export-filename="D:\Codes\Banlan\Resources\logo2\16.png"
+   sodipodi:docname="banlan.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 50 50"
+   height="50mm"
+   width="50mm">
+  <defs
+     id="defs2">
+    <filter
+       height="1.0314765"
+       y="-0.01573826"
+       width="1.0409709"
+       x="-0.020485446"
+       id="filter1209"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur1211"
+         stdDeviation="0.22212732"
+         inkscape:collect="always" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     showgrid="false"
+     inkscape:current-layer="g4862"
+     inkscape:document-units="mm"
+     inkscape:cy="114.65821"
+     inkscape:cx="62.306366"
+     inkscape:zoom="3.8551137"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-247)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <g
+       id="g856-7"
+       transform="translate(12.137832,-6.019105)"
+       style="display:inline;mix-blend-mode:normal;filter:url(#filter1209)">
+      <path
+         inkscape:export-ydpi="11.712434"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:transform-center-x="-3.0096097"
+         inkscape:transform-center-y="-4.4972117"
+         inkscape:label="b2"
+         inkscape:connector-curvature="0"
+         id="path4589-8-0-8"
+         d="m 25.702629,269.2004 c -0.675555,-1.1701 -2.195703,-1.54817 -3.408617,-0.84791 l -17.2715819,9.97176 c -0.00351,0.002 -0.00697,0.005 -0.010102,0.007 a 10,10 0 0 0 -0.014448,0.008 10,10 0 0 0 -3.6602176,13.66013 10,10 0 0 0 13.6603885,3.66067 10,10 0 0 0 3.659967,-13.66057 10,10 0 0 0 -3.795411,-3.72329 l 9.870304,-5.69861 c 1.212912,-0.70029 1.645319,-2.20626 0.969812,-3.37634 z m -11.374985,15.29838 a 5.0000001,5.0000001 0 0 1 -1.82976,6.83017 5.0000001,5.0000001 0 0 1 -6.8304098,-1.83021 5.0000001,5.0000001 0 0 1 1.830459,-6.82997 5.0000001,5.0000001 0 0 1 6.8297108,1.83001 z"
+         style="display:inline;opacity:1;fill:#70b296;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="11.712434"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:transform-center-x="0.0016987774"
+         inkscape:transform-center-y="-6.3245275"
+         inkscape:label="b2"
+         inkscape:connector-curvature="0"
+         id="path4589-8-2-8"
+         d="m 18.668671,264.90314 c -1.035013,-0.86848 -2.592798,-0.70383 -3.493058,0.36904 L 2.3561902,280.5498 c -0.00244,0.003 -0.00491,0.007 -0.00729,0.01 a 10,10 0 0 0 -0.011002,0.0123 10,10 0 0 0 1.2325582,14.08819 10,10 0 0 0 14.0885766,-1.23222 10,10 0 0 0 -1.23295,-14.08852 10,10 0 0 0 -4.839949,-2.20064 l 7.326003,-8.73079 c 0.900253,-1.07288 0.791508,-2.63593 -0.243516,-3.5044 z m -5.456634,18.26625 a 5.0000001,5.0000001 0 0 1 0.616638,7.04407 5.0000001,5.0000001 0 0 1 -7.0444556,0.61631 5.0000001,5.0000001 0 0 1 -0.6159124,-7.04412 5.0000001,5.0000001 0 0 1 7.04373,-0.61626 z"
+         style="display:inline;opacity:1;fill:#126a60;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="11.712434"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:transform-center-x="0.00088394255"
+         inkscape:transform-center-y="-6.9341282"
+         inkscape:label="b2"
+         inkscape:connector-curvature="0"
+         id="path4589-8-6"
+         d="m 10.589171,263.27078 c -1.2696323,-0.46211 -2.6771592,0.22541 -3.1561755,1.54149 l -6.82107379,18.74075 c -0.001375,0.004 -0.002228,0.008 -0.003578,0.0113 a 10,10 0 0 0 -0.006143,0.0154 10,10 0 0 0 5.97666889,12.81701 10,10 0 0 0 12.8174934,-5.9765 10,10 0 0 0 -5.977155,-12.81718 10,10 0 0 0 -5.3007229,-0.4126 l 3.8980849,-10.7099 c 0.479017,-1.31609 -0.157767,-2.74768 -1.427399,-3.20978 z m 1.119864,19.03094 a 5,5 0 0 1 2.988666,6.40835 5,5 0 0 1 -6.4088351,2.98849 5,5 0 0 1 -2.9880029,-6.40866 5,5 0 0 1 6.408172,-2.98818 z"
+         style="display:inline;opacity:1;fill:#741e71;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="11.712434"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:transform-center-x="-0.00018773079"
+         inkscape:transform-center-y="-6.2473652"
+         inkscape:label="b2"
+         inkscape:connector-curvature="0"
+         id="path4589-8-4-0"
+         d="m 2.4386071,264.50024 c -1.3511136,0 -2.4386048553242,1.12746 -2.4386129236903,2.528 l 6.998648e-6,19.9435 c 1.319230323e-4,0.004 3.966029023e-4,0.008 7.155583023e-4,0.012 a 10,10 0 0 0 -3.3962709e-4,0.0165 10,10 0 0 0 9.99989789383,9.9999 10,10 0 0 0 10.000436,-9.99989 10,10 0 0 0 -10.000434,-9.99991 10,10 0 0 0 -5.1221616,1.42527 l 1.62e-5,-11.39723 c -1.58e-5,-1.40056 -1.0880267,-2.52802 -2.4391314,-2.52802 z m 7.5612955,17.50022 a 5.0000001,5.0000001 0 0 1 5.0002154,4.9997 5.0000001,5.0000001 0 0 1 -5.0002089,5.00021 5.0000001,5.0000001 0 0 1 -4.9996968,-5.00021 5.0000001,5.0000001 0 0 1 4.9996903,-4.9997 z"
+         style="display:inline;opacity:1;fill:#3a157c;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       inkscape:label="b0"
+       style="display:none"
+       id="g4836">
+      <path
+         style="opacity:1;fill:#a05a2c;fill-opacity:1;stroke:none;stroke-width:0.27196;stroke-opacity:0.266667"
+         d="M 9.9999072,277.00019 A 10,10 0 0 0 0,287.0001 10,10 0 0 0 9.9999072,297 10,10 0 0 0 20.00033,287.0001 10,10 0 0 0 9.9999072,277.00019 Z m 0,5.00021 a 5,5 0 0 1 5.0002108,4.9997 5,5 0 0 1 -5.0002108,5.00021 5,5 0 0 1 -4.9996951,-5.00021 5,5 0 0 1 4.9996951,-4.9997 z"
+         id="path4589"
+         inkscape:connector-curvature="0" />
+      <rect
+         style="opacity:1;fill:#a05a2c;fill-opacity:1;stroke:none;stroke-width:0.266064;stroke-opacity:0.266667"
+         id="rect4713"
+         width="4.8776689"
+         height="25"
+         x="-2.7755576e-17"
+         y="264.5"
+         rx="2.5000002"
+         ry="2.5280688" />
+      <circle
+         style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.0298481;stroke-opacity:1"
+         id="path4829"
+         cx="10.000165"
+         cy="287.00009"
+         r="0.050000001" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       style="display:none"
+       id="g4862">
+      <rect
+         style="display:none;opacity:1;fill:#395a8e;fill-opacity:1;stroke:none;stroke-width:0.289836;stroke-opacity:0.266667"
+         id="rect4709-20-7"
+         width="12"
+         height="5"
+         x="-276.50021"
+         y="7.500165"
+         rx="2.5"
+         ry="2.5"
+         transform="rotate(-90)"
+         inkscape:transform-center-y="-16.508111"
+         inkscape:transform-center-x="-0.010970039" />
+      <rect
+         style="display:none;opacity:1;fill:#f4bd48;fill-opacity:1;stroke:none;stroke-width:0.289836;stroke-opacity:0.266667"
+         id="rect4709-20-7-7"
+         width="12"
+         height="5"
+         x="-166.32512"
+         y="223.79303"
+         rx="2.5"
+         ry="2.5"
+         transform="rotate(-40)"
+         inkscape:transform-center-y="-10.602807"
+         inkscape:transform-center-x="-12.652994" />
+      <rect
+         style="opacity:1;fill:#9c2128;fill-opacity:1;stroke:none;stroke-width:0.289836;stroke-opacity:0.266667"
+         id="rect4709-20-7-3"
+         width="12"
+         height="5"
+         x="-245.38815"
+         y="127.85921"
+         rx="2.5"
+         ry="2.5"
+         transform="rotate(-65)"
+         inkscape:transform-center-y="-14.956796"
+         inkscape:transform-center-x="-6.9865645" />
+    </g>
+    <g
+       style="mix-blend-mode:normal"
+       transform="translate(12.137832,-6.019105)"
+       id="g856">
+      <path
+         style="display:inline;opacity:1;fill:#70b296;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 25.702629,269.2004 c -0.675555,-1.1701 -2.195703,-1.54817 -3.408617,-0.84791 l -17.2715819,9.97176 c -0.00351,0.002 -0.00697,0.005 -0.010102,0.007 a 10,10 0 0 0 -0.014448,0.008 10,10 0 0 0 -3.6602176,13.66013 10,10 0 0 0 13.6603885,3.66067 10,10 0 0 0 3.659967,-13.66057 10,10 0 0 0 -3.795411,-3.72329 l 9.870304,-5.69861 c 1.212912,-0.70029 1.645319,-2.20626 0.969812,-3.37634 z m -11.374985,15.29838 a 5.0000001,5.0000001 0 0 1 -1.82976,6.83017 5.0000001,5.0000001 0 0 1 -6.8304098,-1.83021 5.0000001,5.0000001 0 0 1 1.830459,-6.82997 5.0000001,5.0000001 0 0 1 6.8297108,1.83001 z"
+         id="path4589-8-0"
+         inkscape:connector-curvature="0"
+         inkscape:label="b2"
+         inkscape:transform-center-y="-4.4972117"
+         inkscape:transform-center-x="-3.0096097"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-ydpi="11.712434" />
+      <path
+         style="display:inline;opacity:1;fill:#126a60;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 18.668671,264.90314 c -1.035013,-0.86848 -2.592798,-0.70383 -3.493058,0.36904 L 2.3561902,280.5498 c -0.00244,0.003 -0.00491,0.007 -0.00729,0.01 a 10,10 0 0 0 -0.011002,0.0123 10,10 0 0 0 1.2325582,14.08819 10,10 0 0 0 14.0885766,-1.23222 10,10 0 0 0 -1.23295,-14.08852 10,10 0 0 0 -4.839949,-2.20064 l 7.326003,-8.73079 c 0.900253,-1.07288 0.791508,-2.63593 -0.243516,-3.5044 z m -5.456634,18.26625 a 5.0000001,5.0000001 0 0 1 0.616638,7.04407 5.0000001,5.0000001 0 0 1 -7.0444556,0.61631 5.0000001,5.0000001 0 0 1 -0.6159124,-7.04412 5.0000001,5.0000001 0 0 1 7.04373,-0.61626 z"
+         id="path4589-8-2"
+         inkscape:connector-curvature="0"
+         inkscape:label="b2"
+         inkscape:transform-center-y="-6.3245275"
+         inkscape:transform-center-x="0.0016987774"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-ydpi="11.712434" />
+      <path
+         style="display:inline;opacity:1;fill:#741e71;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 10.589171,263.27078 c -1.2696323,-0.46211 -2.6771592,0.22541 -3.1561755,1.54149 l -6.82107379,18.74075 c -0.001375,0.004 -0.002228,0.008 -0.003578,0.0113 a 10,10 0 0 0 -0.006143,0.0154 10,10 0 0 0 5.97666889,12.81701 10,10 0 0 0 12.8174934,-5.9765 10,10 0 0 0 -5.977155,-12.81718 10,10 0 0 0 -5.3007229,-0.4126 l 3.8980849,-10.7099 c 0.479017,-1.31609 -0.157767,-2.74768 -1.427399,-3.20978 z m 1.119864,19.03094 a 5,5 0 0 1 2.988666,6.40835 5,5 0 0 1 -6.4088351,2.98849 5,5 0 0 1 -2.9880029,-6.40866 5,5 0 0 1 6.408172,-2.98818 z"
+         id="path4589-8"
+         inkscape:connector-curvature="0"
+         inkscape:label="b2"
+         inkscape:transform-center-y="-6.9341282"
+         inkscape:transform-center-x="0.00088394255"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-ydpi="11.712434" />
+      <path
+         style="display:inline;opacity:1;fill:#3a157c;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 2.4386071,264.50024 c -1.3511136,0 -2.4386048553242,1.12746 -2.4386129236903,2.528 l 6.998648e-6,19.9435 c 1.319230323e-4,0.004 3.966029023e-4,0.008 7.155583023e-4,0.012 a 10,10 0 0 0 -3.3962709e-4,0.0165 10,10 0 0 0 9.99989789383,9.9999 10,10 0 0 0 10.000436,-9.99989 10,10 0 0 0 -10.000434,-9.99991 10,10 0 0 0 -5.1221616,1.42527 l 1.62e-5,-11.39723 c -1.58e-5,-1.40056 -1.0880267,-2.52802 -2.4391314,-2.52802 z m 7.5612955,17.50022 a 5.0000001,5.0000001 0 0 1 5.0002154,4.9997 5.0000001,5.0000001 0 0 1 -5.0002089,5.00021 5.0000001,5.0000001 0 0 1 -4.9996968,-5.00021 5.0000001,5.0000001 0 0 1 4.9996903,-4.9997 z"
+         id="path4589-8-4"
+         inkscape:connector-curvature="0"
+         inkscape:label="b2"
+         inkscape:transform-center-y="-6.2473652"
+         inkscape:transform-center-x="-0.00018773079"
+         inkscape:export-filename="C:\Codes\banlan\Resources\logo2\16.png"
+         inkscape:export-xdpi="11.712434"
+         inkscape:export-ydpi="11.712434" />
+    </g>
+  </g>
+</svg>

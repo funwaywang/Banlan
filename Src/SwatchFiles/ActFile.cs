@@ -100,13 +100,16 @@ namespace Banlan.SwatchFiles
             if (count < 256)
             {
                 var blank = new byte[(256 - count) * 3];
-                Array.Fill<byte>(blank, 0xff);
+                for (int i = 0; i < blank.Length; i++)
+                {
+                    blank[i] = 0xff;
+                }
                 stream.Write(blank, 0, blank.Length);
             }
 
             stream.Write(new byte[] { (byte)((count & 0xFF00) >> 8), (byte)(count & 0xFF) }, 0, 2);
 
-            if(transparency > -1 && transparency < count)
+            if (transparency > -1 && transparency < count)
             {
                 stream.Write(new byte[] { (byte)((transparency & 0xFF00) >> 8), (byte)(transparency & 0xFF) }, 0, 2);
             }

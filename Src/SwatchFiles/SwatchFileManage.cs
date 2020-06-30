@@ -32,10 +32,10 @@ namespace Banlan.SwatchFiles
         {
             get
             {
-                var allExtes = string.Join(';', SupportedRead.SelectMany(s => s.Extensions).Distinct().Select(et => "*" + et));
+                var allExtes = string.Join(";", SupportedRead.SelectMany(s => s.Extensions).Distinct().Select(et => "*" + et));
                 return $"All Supported files ({allExtes})|{allExtes}|"
-                    + string.Join('|', from sf in SupportedRead
-                                       let exts = string.Join(';', sf.Extensions.Select(et => "*" + et))
+                    + string.Join("|", from sf in SupportedRead
+                                       let exts = string.Join(";", sf.Extensions.Select(et => "*" + et))
                                        select $"{sf.Description} ({exts})|{exts}");
             }
         }
@@ -44,8 +44,8 @@ namespace Banlan.SwatchFiles
         {
             get
             {
-                return string.Join('|', from sf in SupportedWrite
-                                        let exts = string.Join(';', sf.Extensions.Select(et => "*" + et))
+                return string.Join("|", from sf in SupportedWrite
+                                        let exts = string.Join(";", sf.Extensions.Select(et => "*" + et))
                                         select $"{sf.Description} ({exts})|{exts}");
             }
         }
@@ -82,13 +82,15 @@ namespace Banlan.SwatchFiles
 
             if (fileType != null)
             {
-                using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                var swatch = fileType.Load(stream);
-                if (swatch != null)
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    swatch.FileName = filename;
+                    var swatch = fileType.Load(stream);
+                    if (swatch != null)
+                    {
+                        swatch.FileName = filename;
+                    }
+                    return swatch;
                 }
-                return swatch;
             }
             else
             {
@@ -129,9 +131,11 @@ namespace Banlan.SwatchFiles
                 throw new Exception($"The file is read only.");
             }
 
-            using var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write);
-            fileType.Save(swatch, stream);
-            swatch.FileName = filename;
+            using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                fileType.Save(swatch, stream);
+                swatch.FileName = filename;
+            }
         }
 
         public static Task SaveAsync(Swatch swatch, Stream stream, ISwatchFile fileType = null)

@@ -27,12 +27,14 @@ namespace Banlan.SwatchFiles
                 return false;
             }
 
-            using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            var header = new byte[4];
-            if (stream.Read(header, 0, 4) == 4
-                && Encoding.ASCII.GetString(header) == "RIFF")
+            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                return true;
+                var header = new byte[4];
+                if (stream.Read(header, 0, 4) == 4
+                    && Encoding.ASCII.GetString(header) == "RIFF")
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -40,41 +42,43 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new BinaryReader(stream);
-            if (Encoding.ASCII.GetString(reader.ReadBytes(4)) != "RIFF"
-                || Encoding.ASCII.GetString(reader.ReadBytes(8), 4, 4) != "PAL ")
+            using (var reader = new BinaryReader(stream))
             {
-                throw new Exception("Invalid File Format.");
-            }
-
-            var swatch = new Swatch();
-            var chunk = reader.ReadBytes(8);
-            while (chunk != null && chunk.Length == 8)
-            {
-                var chunkSize = BitConverter.ToInt32(chunk, 4);
-                if (Encoding.ASCII.GetString(chunk, 0, 4) == "data")
+                if (Encoding.ASCII.GetString(reader.ReadBytes(4)) != "RIFF"
+                    || Encoding.ASCII.GetString(reader.ReadBytes(8), 4, 4) != "PAL ")
                 {
-                    var buffer = reader.ReadBytes(chunkSize);
-                    if (buffer.Length != chunkSize)
-                    {
-                        throw new InvalidDataException("Failed to read enough data to match chunk size.");
-                    }
-                    ReadColors(buffer, swatch);
-                    break;
-                }
-                else
-                {
-                    if (chunkSize % 2 != 0)
-                    {
-                        chunkSize++;
-                    }
-                    stream.Seek(chunkSize, SeekOrigin.Current);
+                    throw new Exception("Invalid File Format.");
                 }
 
-                chunk = reader.ReadBytes(8);
-            }
+                var swatch = new Swatch();
+                var chunk = reader.ReadBytes(8);
+                while (chunk != null && chunk.Length == 8)
+                {
+                    var chunkSize = BitConverter.ToInt32(chunk, 4);
+                    if (Encoding.ASCII.GetString(chunk, 0, 4) == "data")
+                    {
+                        var buffer = reader.ReadBytes(chunkSize);
+                        if (buffer.Length != chunkSize)
+                        {
+                            throw new InvalidDataException("Failed to read enough data to match chunk size.");
+                        }
+                        ReadColors(buffer, swatch);
+                        break;
+                    }
+                    else
+                    {
+                        if (chunkSize % 2 != 0)
+                        {
+                            chunkSize++;
+                        }
+                        stream.Seek(chunkSize, SeekOrigin.Current);
+                    }
 
-            return swatch;
+                    chunk = reader.ReadBytes(8);
+                }
+
+                return swatch;
+            }
         }
 
         private void ReadColors(byte[] buffer, Swatch swatch)
@@ -108,18 +112,20 @@ namespace Banlan.SwatchFiles
             var chunkSize = 4 + count * 4;
             var docSize = 4 + 4 + 4 + 4 + 4 + 2 + 2 + count * 4;
 
-            using var writer = new BinaryWriter(stream);
-            writer.Write(Encoding.ASCII.GetBytes("RIFF"));
-            writer.Write(docSize);
-            writer.Write(Encoding.ASCII.GetBytes("PAL "));
-            writer.Write(Encoding.ASCII.GetBytes("data"));
-            writer.Write(chunkSize);
-            writer.Write((short)0x03);
-            writer.Write((short)count);
-            for (int i = 0; i < count; i++)
+            using (var writer = new BinaryWriter(stream))
             {
-                var color = colors[i];
-                writer.Write(new byte[] { color.R, color.G, color.B, 0 });
+                writer.Write(Encoding.ASCII.GetBytes("RIFF"));
+                writer.Write(docSize);
+                writer.Write(Encoding.ASCII.GetBytes("PAL "));
+                writer.Write(Encoding.ASCII.GetBytes("data"));
+                writer.Write(chunkSize);
+                writer.Write((short)0x03);
+                writer.Write((short)count);
+                for (int i = 0; i < count; i++)
+                {
+                    var color = colors[i];
+                    writer.Write(new byte[] { color.R, color.G, color.B, 0 });
+                }
             }
         }
     }

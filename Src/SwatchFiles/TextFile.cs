@@ -27,30 +27,34 @@ namespace Banlan.SwatchFiles
 
         public Swatch Load(Stream stream)
         {
-            using var reader = new StreamReader(stream);
-            var line = reader.ReadLine();
-            var swatch = new Swatch();
-            while (line != null)
+            using (var reader = new StreamReader(stream))
             {
-                var color = ColorHelper.ParseColor(line);
-                if (color != null)
+                var line = reader.ReadLine();
+                var swatch = new Swatch();
+                while (line != null)
                 {
-                    swatch.Colors.Add(new RgbColor(color.Value.R, color.Value.G, color.Value.B));
+                    var color = ColorHelper.ParseColor(line);
+                    if (color != null)
+                    {
+                        swatch.Colors.Add(new RgbColor(color.Value.R, color.Value.G, color.Value.B));
+                    }
+
+                    line = reader.ReadLine();
                 }
 
-                line = reader.ReadLine();
+                return swatch;
             }
-
-            return swatch;
         }
 
         public void Save(Swatch swatch, Stream stream)
         {
-            using var writer = new StreamWriter(stream);
-            var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors));
-            foreach (var c in colors)
+            using (var writer = new StreamWriter(stream))
             {
-                writer.WriteLine(ColorHelper.ToHexColor(c.R, c.G, c.B));
+                var colors = swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors));
+                foreach (var c in colors)
+                {
+                    writer.WriteLine(ColorHelper.ToHexColor(c.R, c.G, c.B));
+                }
             }
         }
     }

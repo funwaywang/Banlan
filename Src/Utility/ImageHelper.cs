@@ -29,20 +29,22 @@ namespace Banlan
         {
             var encoder = new BmpBitmapEncoder();
 
-            using var memoryStream = new MemoryStream();
-            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-            encoder.Save(memoryStream);
+            using (var memoryStream = new MemoryStream())
+            {
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                encoder.Save(memoryStream);
 
-            memoryStream.Position = 0;
+                memoryStream.Position = 0;
 
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.StreamSource = memoryStream;
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.EndInit();
-            bitmap.Freeze();
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = memoryStream;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                bitmap.Freeze();
 
-            return bitmap;
+                return bitmap;
+            }
         }
     }
 }

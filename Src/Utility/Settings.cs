@@ -52,7 +52,7 @@ namespace Banlan
             foreach (var file in RecentFiles)
             {
                 var fileElement = dom.CreateElement("file");
-                fileElement.SetAttribute("samples", string.Join(',', file.Samples.Select(s => ColorHelper.ToHexColor(s))));
+                fileElement.SetAttribute("samples", string.Join(",", file.Samples.Select(s => ColorHelper.ToHexColor(s))));
                 fileElement.SetAttribute("update_time", file.UpdateTime.ToString("yyyy/MM/dd HH:mm:ss"));
                 fileElement.InnerText = file.FileName;
                 recentFiles.AppendChild(fileElement);
@@ -64,17 +64,21 @@ namespace Banlan
                 }
             }
 
-            using var fs = new FileStream(FileName, FileMode.Create, FileAccess.Write);
-            dom.Save(fs);
+            using (var fs = new FileStream(FileName, FileMode.Create, FileAccess.Write))
+            {
+                dom.Save(fs);
+            }
         }
 
         public void Load()
         {
             if (File.Exists(FileName))
             {
-                using var fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
                 var dom = new XmlDocument();
-                dom.Load(fs);
+                using (var fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+                {
+                    dom.Load(fs);
+                }
 
                 if (dom.DocumentElement?.Name == "settings")
                 {
