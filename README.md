@@ -7,5 +7,7 @@ Banlan Color Swatch Manage Tool
 5. Pick color from screen pixel
 6. Convert in various formats (e.g., RGB, Hex)
 
+[Download the Latest](https://github.com/funwaywang/Banlan/releases)
+
 ![Screenshot1](https://github.com/funwaywang/Banlan/blob/master/Documents/Images/screenshot_1.png "Main screen")
 ![Screenshot2](https://github.com/funwaywang/Banlan/blob/master/Documents/Images/screenshot_2.png "Extract colors from image")
