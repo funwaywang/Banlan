@@ -71,11 +71,6 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.CanContentScroll="False"
                  ItemsSource="{Binding Categories}">
-            <ListBox.Template>
-                <ControlTemplate TargetType="ListBox">
-                    <StackPanel Orientation="Vertical" IsItemsHost="True" />
-                </ControlTemplate>
-            </ListBox.Template>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="0" />

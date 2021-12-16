@@ -108,30 +108,7 @@ namespace Banlan
             }
             else
             {
-                if (openFileDialog == null)
-                {
-                    openFileDialog = new OpenFileDialog
-                    {
-                        Filter = SwatchFileManage.OpenFileFilter,
-                        Multiselect = true
-                    };
-                }
-
-                openFileDialog.Title = "Open…";
-                if (openFileDialog.ShowDialog(this) == true && openFileDialog.FileNames != null)
-                {
-                    ISwatchFile fileType = null;
-                    var filterIndex = openFileDialog.FilterIndex - 2;
-                    if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedRead.Length)
-                    {
-                        fileType = SwatchFileManage.SupportedRead[filterIndex];
-                    }
-
-                    foreach (var file in openFileDialog.FileNames)
-                    {
-                        OpenFileAsync(file, fileType);
-                    }
-                }
+                ShowOpenDialog(null);
             }
         }
 
@@ -507,6 +484,54 @@ namespace Banlan
             {
                 settingsPage = new SettingsPage();
                 AddDocumentView(settingsPage);
+            }
+        }
+
+        private void OpenSwatches_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Swatches");
+            if (Directory.Exists(path))
+            {
+                ShowOpenDialog(path);
+            }
+        }
+
+        private void OpenSwatches_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Swatches");
+            e.CanExecute = Directory.Exists(path);
+        }
+
+        private void ShowOpenDialog(string initialDirectory)
+        {
+            if (openFileDialog == null)
+            {
+                openFileDialog = new OpenFileDialog
+                {
+                    Filter = SwatchFileManage.OpenFileFilter,
+                    Multiselect = true
+                };
+            }
+
+            if (!string.IsNullOrEmpty(initialDirectory))
+            {
+                openFileDialog.InitialDirectory = initialDirectory;
+            }
+
+            openFileDialog.Title = "Open…";
+            if (openFileDialog.ShowDialog(this) == true && openFileDialog.FileNames != null)
+            {
+                ISwatchFile fileType = null;
+                var filterIndex = openFileDialog.FilterIndex - 2;
+                if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedRead.Length)
+                {
+                    fileType = SwatchFileManage.SupportedRead[filterIndex];
+                }
+
+                foreach (var file in openFileDialog.FileNames)
+                {
+                    OpenFileAsync(file, fileType);
+                }
             }
         }
     }

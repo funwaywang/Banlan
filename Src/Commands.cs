@@ -17,6 +17,7 @@ namespace Banlan
         public static readonly RoutedUICommand ExtractColorsFromImage = new RoutedUICommand("Extract Colors", nameof(ExtractColorsFromImage), typeof(Commands));
         public static readonly RoutedUICommand Exit = new RoutedUICommand("Exit", nameof(Exit), typeof(Commands));
         public static readonly RoutedUICommand OpenAsOne = new RoutedUICommand("Open Multi-Files As One", nameof(OpenAsOne), typeof(Commands));
+        public static readonly RoutedUICommand OpenSwatches = new RoutedUICommand("Open Swatches", nameof(OpenSwatches), typeof(Commands));
         public static readonly RoutedUICommand CopyAs = new RoutedUICommand("Copy As", nameof(CopyAs), typeof(Commands));
         public static readonly RoutedUICommand SortBy = new RoutedUICommand("Sort By", nameof(SortBy), typeof(Commands));
         public static readonly RoutedUICommand ExpandAll = new RoutedUICommand("Expand All", nameof(ExpandAll), typeof(Commands));

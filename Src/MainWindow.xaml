@@ -13,6 +13,7 @@
         <CommandBinding Command="ApplicationCommands.New" Executed="New_Executed" />
         <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Executed" />
         <CommandBinding Command="local:Commands.OpenAsOne" Executed="OpenAsOne_Executed" />
+        <CommandBinding Command="local:Commands.OpenSwatches" Executed="OpenSwatches_Executed" CanExecute="OpenSwatches_CanExecute" />
         <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Executed" CanExecute="Save_CanExecute" />
         <CommandBinding Command="ApplicationCommands.SaveAs" Executed="SaveAs_Executed" CanExecute="Save_CanExecute" />
         <CommandBinding Command="local:Commands.CloseTab" Executed="CloseTab_Executed" CanExecute="CloseTab_CanExecute" />
@@ -70,6 +71,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Command="local:Commands.OpenAsOne" local:Lang.Ids="Open Multi-Files as One…"></MenuItem>
+                    <MenuItem Command="local:Commands.OpenSwatches" local:Lang.Ids="Open Swatches…"></MenuItem>
                     <MenuItem Command="ApplicationCommands.Save" local:Lang.Ids="Save">
                         <MenuItem.Icon>
                             <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16">&#xEA35;</TextBlock>
