@@ -1,6 +1,6 @@
 set z7z="C:\program files\7-zip\7z.exe"
 
-set zipfile="./bin/Banlan_1.20.630.0.zip"
+set zipfile="./bin/Banlan_1.21.1216.zip"
 del %zipfile%
 
 %z7z% a -tzip %zipfile% ../Src/bin/Release/Banlan.exe 
