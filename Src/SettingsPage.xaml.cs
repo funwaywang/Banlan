@@ -27,9 +27,9 @@ namespace Banlan
             Initialize();
         }
 
-        public Language CurrentLanguage
+        public Language? CurrentLanguage
         {
-            get => (Language)GetValue(CurrentLanguageProperty);
+            get => (Language?)GetValue(CurrentLanguageProperty);
             set => SetValue(CurrentLanguageProperty, value);
         }
 

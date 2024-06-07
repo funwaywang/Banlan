@@ -44,7 +44,7 @@ namespace Banlan.SwatchFiles
 
             var swatch = new Swatch
             {
-                Name = dom.DocumentElement.GetAttribute("name")
+                Name = dom.DocumentElement?.GetAttribute("name")
             };
 
             Load(dom, swatch);
@@ -59,19 +59,30 @@ namespace Banlan.SwatchFiles
                 throw new Exception("Invalid File Format.");
             }
 
-            ReadColors(swatch.Colors, dom.DocumentElement.SelectSingleNode("colors") as XmlElement);
-
-            if (dom.DocumentElement.SelectSingleNode("categories") is XmlElement categoriesNode)
+            if (dom.DocumentElement?.SelectSingleNode("colors") is XmlElement colorsNode)
             {
-                foreach (var categoryNode in categoriesNode.SelectNodes("category").OfType<XmlElement>())
+                ReadColors(swatch.Colors, colorsNode);
+            }
+
+            if (dom.DocumentElement?.SelectSingleNode("categories") is XmlElement categoriesNode)
+            {
+                if (categoriesNode.SelectNodes("category") is XmlNodeList categoryNodes)
                 {
-                    var category = new Category
+                    foreach (var categoryNode in categoryNodes.OfType<XmlElement>())
                     {
-                        Name = categoryNode.GetAttribute("name"),
-                        IsOpen = StringHelper.GetBool(categoryNode.GetAttribute("isOpen"), true)
-                    };
-                    ReadColors(category.Colors, categoryNode.SelectSingleNode("colors") as XmlElement);
-                    swatch.Categories.Add(category);
+                        var category = new Category
+                        {
+                            Name = categoryNode.GetAttribute("name"),
+                            IsOpen = StringHelper.GetBool(categoryNode.GetAttribute("isOpen"), true)
+                        };
+
+                        if (categoryNode.SelectSingleNode("colors") is XmlElement colorsNode2)
+                        {
+                            ReadColors(category.Colors, colorsNode2);
+                        }
+
+                        swatch.Categories.Add(category);
+                    }
                 }
             }
         }
@@ -91,16 +102,19 @@ namespace Banlan.SwatchFiles
                 return;
             }
 
-            foreach (var colorElement in xmlElement.SelectNodes("color").OfType<XmlElement>())
+            if(xmlElement.SelectNodes("color") is XmlNodeList colorNodes)
             {
-                if (ReadColor(colorElement) is ColorBase color)
+                foreach (var colorElement in colorNodes.OfType<XmlElement>())
                 {
-                    colors.Add(color);
+                    if (ReadColor(colorElement) is ColorBase color)
+                    {
+                        colors.Add(color);
+                    }
                 }
             }
         }
 
-        private ColorBase ReadColor(XmlElement xmlElement)
+        private ColorBase? ReadColor(XmlElement xmlElement)
         {
             var name = xmlElement.GetAttribute("name");
             var type = xmlElement.GetAttribute("type");
@@ -169,17 +183,18 @@ namespace Banlan.SwatchFiles
         private void SaveToXml(Swatch swatch, XmlDocument dom)
         {
             dom.AppendChild(dom.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-            dom.AppendChild(dom.CreateElement("banlan_swatch"));
+            var documentElement = dom.CreateElement("banlan_swatch");
+            dom.AppendChild(documentElement);
 
             if (!string.IsNullOrEmpty(swatch.Name))
             {
-                dom.DocumentElement.SetAttribute("name", swatch.Name);
+                documentElement.SetAttribute("name", swatch.Name);
             }
 
             if (swatch.Colors.Any())
             {
                 var defaultNode = dom.CreateElement("colors");
-                dom.DocumentElement.AppendChild(defaultNode);
+                documentElement.AppendChild(defaultNode);
                 foreach (var c in swatch.Colors)
                 {
                     WriteColorTo(c, defaultNode);
@@ -189,7 +204,7 @@ namespace Banlan.SwatchFiles
             if (swatch.Categories.Any())
             {
                 var categoriesNode = dom.CreateElement("categories");
-                dom.DocumentElement.AppendChild(categoriesNode);
+                documentElement.AppendChild(categoriesNode);
                 foreach (var category in swatch.Categories)
                 {
                     var categoryNode = dom.CreateElement("category");

@@ -20,7 +20,7 @@ namespace Banlan
 {
     public partial class SwatchView : DocumentView
     {
-        private SaveFileDialog saveFileDialog;
+        private SaveFileDialog? saveFileDialog;
         public static readonly DependencyProperty SwatchProperty = DependencyProperty.Register(nameof(Swatch), typeof(SwatchViewModel), typeof(SwatchView));
         public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(nameof(SelectedColor), typeof(ColorViewModel), typeof(SwatchView));
         public static readonly DependencyProperty ColorTextFormatterProperty = DependencyProperty.Register(nameof(ColorTextFormatter), typeof(IColorTextFormatter), typeof(SwatchView));
@@ -38,9 +38,9 @@ namespace Banlan
             set => SetValue(SwatchProperty, value);
         }
 
-        public ColorViewModel SelectedColor
+        public ColorViewModel? SelectedColor
         {
-            get => (ColorViewModel)GetValue(SelectedColorProperty);
+            get => (ColorViewModel?)GetValue(SelectedColorProperty);
             set => SetValue(SelectedColorProperty, value);
         }
 
@@ -146,7 +146,7 @@ namespace Banlan
             {
                 try
                 {
-                    ISwatchFile fileType = null;
+                    ISwatchFile? fileType = null;
                     var filterIndex = saveFileDialog.FilterIndex - 1;
                     if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedWrite.Length)
                     {

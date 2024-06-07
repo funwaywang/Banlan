@@ -9,9 +9,9 @@ namespace Banlan.Core
         public readonly float[] Data;
         public readonly int Weight;
         public readonly int Position;
-        public Cluster Cluster { get; set; }
+        public Cluster? Cluster;
 
-        public DataPoint(float[] data, int weight, Cluster cluster, int position)
+        public DataPoint(float[] data, int weight, Cluster? cluster, int position)
         {
             Data = data;
             Weight = weight;

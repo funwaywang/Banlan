@@ -20,7 +20,7 @@ namespace Banlan.Core
             clusters = Enumerable.Range(0, numClusters).Select(it => new Cluster(numDimensions)).ToArray();
         }
 
-        public DataPoint[] DataPoints { get; private set; }
+        public DataPoint[]? DataPoints { get; private set; }
 
         public void SetPoints(List<Palette> palettes)
         {
@@ -41,7 +41,7 @@ namespace Banlan.Core
             foreach (var cluster in clusters.Skip(1))
             {
                 var maxDist = 0f;
-                DataPoint bestCenter = null;
+                DataPoint? bestCenter = null;
                 foreach (var point in DataPoints)
                 {
                     if (point.Cluster == null)
@@ -86,9 +86,9 @@ namespace Banlan.Core
             return clusters;
         }
 
-        private Cluster NearestClusterTo(DataPoint point)
+        private Cluster? NearestClusterTo(DataPoint point)
         {
-            Cluster nearestCluster = null;
+            Cluster? nearestCluster = null;
             var nearestDistance = float.MaxValue;
             foreach (var cluster in clusters)
             {
@@ -135,12 +135,15 @@ namespace Banlan.Core
         private int ClusterStep()
         {
             var numMoves = 0;
-            foreach (var point in DataPoints)
+            if(DataPoints != null)
             {
-                var nearestCluster = NearestClusterTo(point);
-                if (ReassignPoint(point, nearestCluster))
+                foreach (var point in DataPoints)
                 {
-                    numMoves++;
+                    var nearestCluster = NearestClusterTo(point);
+                    if (nearestCluster != null && ReassignPoint(point, nearestCluster))
+                    {
+                        numMoves++;
+                    }
                 }
             }
 

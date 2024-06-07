@@ -10,8 +10,8 @@ namespace Banlan
 {
     public class NumericUpDown : Control
     {
-        private RepeatButton buttonUp;
-        private RepeatButton buttonDown;
+        private RepeatButton? buttonUp;
+        private RepeatButton? buttonDown;
         public static readonly DependencyProperty MinimumValueProperty = DependencyProperty.Register(nameof(MinimumValue), typeof(int), typeof(NumericUpDown), new PropertyMetadata(0));
         public static readonly DependencyProperty MaximumValueProperty = DependencyProperty.Register(nameof(MaximumValue), typeof(int), typeof(NumericUpDown), new PropertyMetadata(100));
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(int), typeof(NumericUpDown), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

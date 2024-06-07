@@ -74,9 +74,9 @@ namespace Banlan
 
         protected override int VisualChildrenCount => DragHandlers?.Length ?? 0;
 
-        public Style HandlerStyle
+        public Style? HandlerStyle
         {
-            get => (Style)GetValue(HandlerStyleProperty);
+            get => (Style?)GetValue(HandlerStyleProperty);
             set => SetValue(HandlerStyleProperty, value);
         }
 
@@ -279,7 +279,7 @@ namespace Banlan
                 Template = null;
             }
 
-            public Pen BorderPen { get; set; }
+            public Pen? BorderPen { get; set; }
 
             public Rect Bounds { get; private set; }
 

@@ -10,18 +10,18 @@ namespace Banlan
 {
     public class Swatch : Category, INotifyPropertyChanged
     {
-        private string _FileName;
+        private string? _FileName;
 
         public Swatch()
         {
         }
 
-        public Swatch(string name, IEnumerable<ColorBase> colors = null)
+        public Swatch(string name, IEnumerable<ColorBase>? colors = null)
             : base(name, colors)
         {
         }
 
-        public string FileName
+        public string? FileName
         {
             get => _FileName;
             set
@@ -45,7 +45,7 @@ namespace Banlan
 
             if (another.Colors.Any())
             {
-                string name = another.Name;
+                var name = another.Name;
                 if (string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(another.FileName))
                 {
                     name = Path.GetFileName(another.FileName);

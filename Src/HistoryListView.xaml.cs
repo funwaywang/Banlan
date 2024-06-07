@@ -22,7 +22,7 @@ namespace Banlan
 {
     public partial class HistoryListView : DocumentView
     {
-        private SaveFileDialog saveFileDialog;
+        private SaveFileDialog? saveFileDialog;
         public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(nameof(SelectedColor), typeof(ColorViewModel), typeof(HistoryListView));
 
         public HistoryListView()
@@ -38,9 +38,9 @@ namespace Banlan
 
         public SwatchViewModel History { get; private set; }
 
-        public ColorViewModel SelectedColor
+        public ColorViewModel? SelectedColor
         {
-            get => (ColorViewModel)GetValue(SelectedColorProperty);
+            get => (ColorViewModel?)GetValue(SelectedColorProperty);
             set => SetValue(SelectedColorProperty, value);
         }
 
@@ -92,6 +92,12 @@ namespace Banlan
 
         public override async Task<bool> SaveAsAsync()
         {
+            var swatch = History.Swatch;
+            if (swatch == null)
+            {
+                return false;
+            }
+
             if (saveFileDialog == null)
             {
                 saveFileDialog = new SaveFileDialog
@@ -105,7 +111,7 @@ namespace Banlan
             {
                 try
                 {
-                    ISwatchFile fileType = null;
+                    ISwatchFile? fileType = null;
                     var filterIndex = saveFileDialog.FilterIndex - 1;
                     if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedWrite.Length)
                     {
@@ -125,7 +131,7 @@ namespace Banlan
 
                     using (var stream = new FileStream(filename, FileMode.Create, FileAccess.Write))
                     {
-                        await SwatchFileManage.SaveAsync(History.Swatch, stream, fileType);
+                        await SwatchFileManage.SaveAsync(swatch, stream, fileType);
                     }
 
                     if (File.Exists(filename) && Window.GetWindow(this) is MainWindow mainWindow)

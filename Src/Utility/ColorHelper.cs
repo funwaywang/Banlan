@@ -504,7 +504,7 @@ namespace Banlan
             }
         }
 
-        public static Color? ParseColor(string value, bool withAlpha = true)
+        public static Color? ParseColor(string? value, bool withAlpha = true)
         {
             if (string.IsNullOrWhiteSpace(value))
             {

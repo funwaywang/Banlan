@@ -10,7 +10,7 @@ namespace Banlan
     [ValueConversion(typeof(string), typeof(string))]
     public class TextLocalConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (parameter is string p)
             {

@@ -31,9 +31,9 @@ namespace Banlan
             set => SetValue(TitleProperty, value);
         }
 
-        public string FileName
+        public string? FileName
         {
-            get => (string)GetValue(FileNameProperty);
+            get => (string?)GetValue(FileNameProperty);
             set => SetValue(FileNameProperty, value);
         }
 

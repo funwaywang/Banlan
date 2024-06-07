@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace Banlan
@@ -29,10 +25,7 @@ namespace Banlan
                 Name = category.Name;
                 IsOpen = category.IsOpen;
                 RefreshColors(category);
-                if (category != null)
-                {
-                    category.Colors.CollectionChanged += Category_Colors_CollectionChanged;
-                }
+                category.Colors.CollectionChanged += Category_Colors_CollectionChanged;
                 category.PropertyChanged += Category_PropertyChanged;
             }
 
@@ -40,7 +33,7 @@ namespace Banlan
             IsEmpty = !Colors.Any();
         }
 
-        public Category Info { get; private set; }
+        public Category? Info { get; private set; }
 
         public int Level
         {
@@ -48,9 +41,9 @@ namespace Banlan
             set => SetValue(LevelProperty, value);
         }
 
-        public string Name
+        public string? Name
         {
-            get => (string)GetValue(NameProperty);
+            get => (string?)GetValue(NameProperty);
             set => SetValue(NameProperty, value);
         }
 
@@ -74,7 +67,7 @@ namespace Banlan
 
         public ObservableCollection<ColorViewModel> Colors { get; private set; } = new ObservableCollection<ColorViewModel>();
 
-        private void Category_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Category_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Category.Name))
             {
@@ -94,13 +87,13 @@ namespace Banlan
             }
         }
 
-        private void Colors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Colors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             IsEmpty = !Colors.Any();
             IsModified = true;
         }
 
-        private void Category_Colors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Category_Colors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -133,7 +126,7 @@ namespace Banlan
 
         public virtual bool TryRemove(ColorViewModel model)
         {
-            if (Info.Colors.Contains(model.Color))
+            if (Info?.Colors?.Contains(model.Color) == true)
             {
                 Info.Colors.Remove(model.Color);
                 return true;

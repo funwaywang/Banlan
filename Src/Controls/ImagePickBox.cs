@@ -17,9 +17,9 @@ namespace Banlan
 {
     public class ImagePickBox : Control
     {
-        private Image PreviewImageBox;
-        private RangeSelectionAdorner rangeSelectionAdorner;
-        private PickHandlersAdorner pickHandlersAdorner;
+        private Image? PreviewImageBox;
+        private RangeSelectionAdorner? rangeSelectionAdorner;
+        private PickHandlersAdorner? pickHandlersAdorner;
         private Point? ImageBoxMouseDownPoint = null;
         private bool isSelectionMode = false;
         public static readonly RoutedEvent PointMovedEvent = EventManager.RegisterRoutedEvent(nameof(PointMoved), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ImagePickBox));
@@ -156,7 +156,9 @@ namespace Banlan
 
         private void PreviewImageBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && ImageBoxMouseDownPoint is Point downPoint)
+            if (e.LeftButton == MouseButtonState.Pressed
+                && ImageBoxMouseDownPoint is Point downPoint
+                && PreviewImageBox is Image previewImageBox)
             {
                 var point = e.GetPosition(PreviewImageBox);
                 if (!isSelectionMode)
@@ -166,7 +168,7 @@ namespace Banlan
 
                 if (Math.Abs(downPoint.X - point.X) > 2 || Math.Abs(downPoint.Y - point.Y) > 2)
                 {
-                    var adornedSize = PreviewImageBox.DesiredSize;
+                    var adornedSize = previewImageBox.DesiredSize;
                     var rect = new Rect(Math.Max(0, Math.Min(point.X, downPoint.X)),
                         Math.Max(0, Math.Min(point.Y, downPoint.Y)),
                         Math.Abs(point.X - downPoint.X),
@@ -192,7 +194,7 @@ namespace Banlan
             {
                 isSelectionMode = false;
                 ImageBoxMouseDownPoint = e.GetPosition(PreviewImageBox);
-                PreviewImageBox.CaptureMouse();
+                PreviewImageBox?.CaptureMouse();
             }
         }
 
@@ -205,12 +207,12 @@ namespace Banlan
 
             isSelectionMode = false;
             ImageBoxMouseDownPoint = null;
-            PreviewImageBox.ReleaseMouseCapture();
+            PreviewImageBox?.ReleaseMouseCapture();
         }
 
         private void RangeSelectionAdorner_RangeChanged(object sender, RoutedEventArgs e)
         {
-            if (rangeSelectionAdorner.Range is Rect rect)
+            if (rangeSelectionAdorner?.Range is Rect rect)
             {
                 SelectedRange = rect.Unzoom(Zoom);
             }
@@ -350,7 +352,7 @@ namespace Banlan
                 parent.Thumb_DragDelta(sender, e);
             }
 
-            private void ColorPoints_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            private void ColorPoints_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
             {
                 if (e.Action == NotifyCollectionChangedAction.Reset)
                 {

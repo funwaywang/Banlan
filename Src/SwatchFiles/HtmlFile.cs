@@ -79,23 +79,23 @@ namespace Banlan.SwatchFiles
 
                     foreach (Match match in HexRegex.Matches(line))
                     {
-                        byte[] rgb = null;
+                        byte[]? rgb = null;
                         if (match.Groups[1].Value.Length == 3)
                         {
                             rgb = new byte[]
                             {
-                            Convert.ToByte(match.Groups[1].Value.Substring(0,1), 16),
-                            Convert.ToByte(match.Groups[1].Value.Substring(1,1), 16),
-                            Convert.ToByte(match.Groups[1].Value.Substring(2,1), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(0,1), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(1,1), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(2,1), 16),
                             };
                         }
                         else if (match.Groups[1].Value.Length == 6)
                         {
                             rgb = new byte[]
                             {
-                            Convert.ToByte(match.Groups[1].Value.Substring(0,2), 16),
-                            Convert.ToByte(match.Groups[1].Value.Substring(2,2), 16),
-                            Convert.ToByte(match.Groups[1].Value.Substring(4,2), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(0,2), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(2,2), 16),
+                                Convert.ToByte(match.Groups[1].Value.Substring(4,2), 16),
                             };
                         }
 

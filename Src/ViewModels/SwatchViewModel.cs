@@ -44,17 +44,17 @@ namespace Banlan
             set => SetValue(HasCategoriesProperty, value);
         }
 
-        public string FileName
+        public string? FileName
         {
-            get => (string)GetValue(FileNameProperty);
+            get => (string?)GetValue(FileNameProperty);
             set => SetValue(FileNameProperty, value);
         }
 
-        public Swatch Swatch => Info as Swatch;
+        public Swatch? Swatch => Info as Swatch;
 
         public ObservableCollection<CategoryViewModel> Categories { get; private set; } = new ObservableCollection<CategoryViewModel>();
 
-        private void Swatch_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Swatch_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Swatch.FileName))
             {
@@ -62,7 +62,7 @@ namespace Banlan
             }
         }
 
-        private void Categories_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Categories_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -94,7 +94,7 @@ namespace Banlan
                 }
             }
 
-            HasCategories = Swatch.Categories.Any();
+            HasCategories = Swatch?.Categories.Any() == true;
         }
 
         public override bool TryRemove(ColorViewModel model)

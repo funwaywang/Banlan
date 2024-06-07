@@ -36,9 +36,9 @@ namespace Banlan
             set => SetValue(ColorProperty, value);
         }
 
-        public string Name
+        public string? Name
         {
-            get => (string)GetValue(NameProperty);
+            get => (string?)GetValue(NameProperty);
             set => SetValue(NameProperty, value);
         }
 
@@ -48,21 +48,21 @@ namespace Banlan
             set => SetValue(ValueProperty, value);
         }
 
-        public Brush Background
+        public Brush? Background
         {
-            get => (Brush)GetValue(BackgroundProperty);
+            get => (Brush?)GetValue(BackgroundProperty);
             set => SetValue(BackgroundProperty, value);
         }
 
-        public Brush Foreground
+        public Brush? Foreground
         {
-            get => (Brush)GetValue(ForegroundProperty);
+            get => (Brush?)GetValue(ForegroundProperty);
             set => SetValue(ForegroundProperty, value);
         }
 
-        public string Text
+        public string? Text
         {
-            get => (string)GetValue(TextProperty);
+            get => (string?)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
 

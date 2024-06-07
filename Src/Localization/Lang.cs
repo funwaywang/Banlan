@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,9 +56,9 @@ namespace Banlan
         {
             if (sender is UIElement uiElement)
             {
-                SetId(uiElement, e.NewValue as string);
                 if (e.NewValue is string idString)
                 {
+                    SetId(uiElement, new LangId(idString));
                     RefreshElement(sender, idString);
                 }
             }
@@ -100,6 +101,11 @@ namespace Banlan
         private static void RefreshElement(DependencyObject element, LangId id)
         {
             var text = LanguageManage.Default.CurrentLanguage?.GetText(id);
+            if (text == null)
+            {
+                return;
+            }
+
             if (element is ILocalizable localizable)
             {
                 localizable.SetLocalizedText(text);
@@ -126,7 +132,8 @@ namespace Banlan
             }
         }
 
-        public static string GetText(string name)
+        [return: NotNullIfNotNull(nameof(name))]
+        public static string? GetText(string? name)
         {
             return LanguageExtensions.GetText(LanguageManage.Default.CurrentLanguage ?? Language.Default, name);
         }
@@ -136,37 +143,37 @@ namespace Banlan
             return LanguageExtensions.GetText(LanguageManage.Default.CurrentLanguage ?? Language.Default, name, defaultValue);
         }
 
-        public static string GetTextAny(string name, params string[] names)
+        public static string? GetTextAny(string name, params string[] names)
         {
             return LanguageExtensions.GetTextAny(LanguageManage.Default.CurrentLanguage ?? Language.Default, name, names);
         }
 
-        public static string GetTextWithEllipsis(string name)
+        public static string? GetTextWithEllipsis(string name)
         {
             return LanguageExtensions.GetTextWithEllipsis(LanguageManage.Default.CurrentLanguage ?? Language.Default, name);
         }
 
-        public static string GetTextWithColon(string name)
+        public static string? GetTextWithColon(string name)
         {
             return LanguageExtensions.GetTextWithColon(LanguageManage.Default.CurrentLanguage ?? Language.Default, name);
         }
 
-        public static string GetTextWithAccelerator(string name, bool withEllipsis, char accelerator)
+        public static string? GetTextWithAccelerator(string name, bool withEllipsis, char accelerator)
         {
             return LanguageExtensions.GetTextWithAccelerator(LanguageManage.Default.CurrentLanguage ?? Language.Default, name, accelerator);
         }
 
-        public static string GetTextWithAccelerator(string name, char accelerator)
+        public static string? GetTextWithAccelerator(string name, char accelerator)
         {
             return LanguageExtensions.GetTextWithAccelerator(LanguageManage.Default.CurrentLanguage ?? Language.Default, name, accelerator);
         }
 
-        public static string GetText(LangId langId)
+        public static string? GetText(LangId langId)
         {
             return LanguageExtensions.GetText(LanguageManage.Default.CurrentLanguage ?? Language.Default, langId);
         }
 
-        public static string GetText(string name, bool withEllipsis, bool withColon, char accelerator)
+        public static string? GetText(string name, bool withEllipsis, bool withColon, char accelerator)
         {
             return LanguageExtensions.GetText(LanguageManage.Default.CurrentLanguage ?? Language.Default, name);
         }

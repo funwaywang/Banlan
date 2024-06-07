@@ -18,7 +18,7 @@ namespace Banlan
             set => SetValue(FormatterProperty, value);
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is ColorBase vi)
             {

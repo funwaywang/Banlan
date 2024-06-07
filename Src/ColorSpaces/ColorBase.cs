@@ -7,7 +7,7 @@ namespace Banlan
 {
     public abstract class ColorBase : IComparable
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public byte R { get; private set; }
 
@@ -37,7 +37,7 @@ namespace Banlan
             return ColorHelper.ToHexColor(R, G, B);
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj is ColorBase c)
             {

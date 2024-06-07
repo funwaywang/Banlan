@@ -9,7 +9,7 @@ namespace Banlan
 {
     public class ColorForegroundConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is ColorBase vi)
             {

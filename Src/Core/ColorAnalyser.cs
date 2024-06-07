@@ -52,12 +52,12 @@ namespace Banlan.Core
             return BackgroundColor.Value;
         }
 
-        public Color ChooseTextColor(Color backgroundColor, IEnumerable<Palette> palette)
+        public Color ChooseTextColor(Color backgroundColor, IEnumerable<Palette>? palette)
         {
-            if (palette == null)
-            {
-                palette = null;
-            }
+            //if (palette == null)
+            //{
+            //    palette = null;
+            //}
 
             (var h, var s, var l) = ColorHelper.RgbToHsl(backgroundColor.R, backgroundColor.G, backgroundColor.B);
             h += 0.5f;
@@ -99,7 +99,7 @@ namespace Banlan.Core
             return t * to + (1 - t) * from;
         }
 
-        public Palette[] AnalyseImage(int paletteSize, Color? background = null, bool ignoreGrey = false)
+        public Palette[]? AnalyseImage(int paletteSize, Color? background = null, bool ignoreGrey = false)
         {
             if (background == null)
             {
@@ -173,7 +173,7 @@ namespace Banlan.Core
             return (filteredColors, numVectors);
         }
 
-        private (List<Palette> palettes, int numVectors) GetClusteredPalette(int numClusters, int threshold, int paletteSize, Color? exclude, int error, bool ignoreGrey)
+        private (List<Palette>? palettes, int numVectors) GetClusteredPalette(int numClusters, int threshold, int paletteSize, Color? exclude, int error, bool ignoreGrey)
         {
             (var palettes, var numVectors) = GetThresholdedPalette(threshold, paletteSize, exclude, error, ignoreGrey);
             if (palettes.Any())

@@ -12,7 +12,7 @@ namespace Banlan.Core
     class OctreeNode
     {
         private readonly float[] mean;
-        private readonly OctreeNode[] children;
+        private readonly OctreeNode?[] children;
         private int count = 0;
         private bool isLeaf;
 
@@ -25,7 +25,7 @@ namespace Banlan.Core
             {
                 octree.LeafCount++;
                 NextReducible = null;
-                children = null;
+                children = [];
             }
             else
             {
@@ -37,7 +37,7 @@ namespace Banlan.Core
 
         public int Position { get; private set; }
 
-        public OctreeNode NextReducible { get; private set; }
+        public OctreeNode? NextReducible { get; private set; }
 
         public OctreeNode InsertVector(byte[] v, Octree octree, int level, int position = -1)
         {
@@ -116,7 +116,7 @@ namespace Banlan.Core
             return numChildren - 1;
         }
 
-        public List<Palette> GetData(List<Palette> data = null, int index = 0)
+        public List<Palette> GetData(List<Palette>? data = null, int index = 0)
         {
             if (data == null)
             {

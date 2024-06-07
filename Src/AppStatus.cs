@@ -35,9 +35,9 @@ namespace Banlan
             private set => SetValue(SelectedColorProperty, value);
         }
 
-        public string SelectedColorText
+        public string? SelectedColorText
         {
-            get => (string)GetValue(SelectedColorTextProperty);
+            get => (string?)GetValue(SelectedColorTextProperty);
             set => SetValue(SelectedColorTextProperty, value);
         }
 
@@ -51,8 +51,13 @@ namespace Banlan
 
         public void Startup()
         {
-            SelectedFormatter = ColorTextFormatters.FirstOrDefault(f => string.Equals(f.Name, Settings.Default["ColorTextFormat"], StringComparison.OrdinalIgnoreCase)) ?? ColorTextFormatters.FirstOrDefault();
-            History = SwatchFileManage.Load(historyFileName);
+            SelectedFormatter = ColorTextFormatters.FirstOrDefault(f => string.Equals(f.Name, Settings.Default["ColorTextFormat"], StringComparison.OrdinalIgnoreCase)) ?? ColorTextFormatters.First();
+
+            var history = SwatchFileManage.Load(historyFileName);
+            if (history != null)
+            {
+                History = history;
+            }
         }
 
         public void Exit()
@@ -129,7 +134,7 @@ namespace Banlan
         {
             SelectedColor = color;
 
-            if (color != null && appendToHistory)
+            if (appendToHistory)
             {
                 AppendToHistory(color.R, color.G, color.B);
             }

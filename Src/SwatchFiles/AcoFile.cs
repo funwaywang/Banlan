@@ -78,7 +78,7 @@ namespace Banlan.SwatchFiles
                 var item3 = reader.ReadUInt16();
                 var item4 = reader.ReadUInt16();
 
-                ColorBase color = null;
+                ColorBase? color = null;
                 switch (space)
                 {
                     case ColorSpace.RGB:
@@ -110,11 +110,17 @@ namespace Banlan.SwatchFiles
                     if (nameLength > 0)
                     {
                         var nameBuffer = reader.ReadBytes(nameLength);
-                        color.Name = Encoding.BigEndianUnicode.GetString(nameBuffer, 0, nameLength - 2);
+                        if (color != null)
+                        {
+                            color.Name = Encoding.BigEndianUnicode.GetString(nameBuffer, 0, nameLength - 2);
+                        }
                     }
                 }
 
-                swatch.Colors.Add(color);
+                if (color != null)
+                {
+                    swatch.Colors.Add(color);
+                }
             }
         }
 
@@ -159,7 +165,7 @@ namespace Banlan.SwatchFiles
                     space = ColorSpace.CMYK;
                     values = new ushort[] { (ushort)((1f - cmyk.C) * 65535), (ushort)((1f - cmyk.M) * 65535), (ushort)((1f - cmyk.Y) * 65535), (ushort)((1f - cmyk.K) * 65535) };
                 }
-                else if(c is LabColor lab)
+                else if (c is LabColor lab)
                 {
                     space = ColorSpace.Lab;
                     values = new ushort[] { (ushort)(lab.L * 100), (ushort)(lab.a * 100), (ushort)(lab.b * 100) };

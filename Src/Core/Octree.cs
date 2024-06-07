@@ -13,8 +13,8 @@ namespace Banlan.Core
         public const int branching = 8;
         public const int dimensions = 3;
 
-        private OctreeNode prevNode;
-        private byte[] prevVect;
+        private OctreeNode? prevNode;
+        private byte[] prevVect = [];
 
         public Octree(int maxBits = 8)
         {
@@ -34,7 +34,7 @@ namespace Banlan.Core
 
         public OctreeNode Root { get; private set; }
 
-        public OctreeNode[] ReducibleNodes { get; private set; }
+        public OctreeNode?[] ReducibleNodes { get; private set; }
 
         public int[] LevelMasks { get; private set; }
 
@@ -57,7 +57,7 @@ namespace Banlan.Core
 
         public int InsertVector(byte[] newVect, int position)
         {
-            if ((prevNode != null) && (IsVectorEqual(newVect, prevVect)))
+            if (prevNode != null && IsVectorEqual(newVect, prevVect))
             {
                 prevNode.InsertVector(newVect, this, 0, position);
             }
@@ -69,7 +69,7 @@ namespace Banlan.Core
             return NumVectors++;
         }
 
-        private OctreeNode Reduce()
+        private OctreeNode? Reduce()
         {
             var levelIndex = MaxBits - 1;
             while (levelIndex > 0 && (ReducibleNodes[levelIndex] == null))
@@ -78,8 +78,11 @@ namespace Banlan.Core
             }
 
             var node = ReducibleNodes[levelIndex];
-            ReducibleNodes[levelIndex] = node.NextReducible;
-            LeafCount -= node.Reduce();
+            if (node != null)
+            {
+                ReducibleNodes[levelIndex] = node.NextReducible;
+                LeafCount -= node.Reduce();
+            }
 
             return prevNode = null;
         }

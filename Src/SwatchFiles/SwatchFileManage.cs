@@ -50,12 +50,12 @@ namespace Banlan.SwatchFiles
             }
         }
 
-        public static Task<Swatch> LoadAsync(string filename, ISwatchFile fileType = null)
+        public static Task<Swatch?> LoadAsync(string filename, ISwatchFile? fileType = null)
         {
             return Task.Run(() => Load(filename, fileType));
         }
 
-        public static Swatch Load(string filename, ISwatchFile fileType = null)
+        public static Swatch? Load(string filename, ISwatchFile? fileType = null)
         {
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
             {
@@ -98,12 +98,12 @@ namespace Banlan.SwatchFiles
             }
         }
 
-        public static Task SaveAsync(Swatch swatch, string filename, ISwatchFile fileType = null)
+        public static Task SaveAsync(Swatch swatch, string filename, ISwatchFile? fileType = null)
         {
             return Task.Run(() => Save(swatch, filename, fileType));
         }
 
-        public static void Save(Swatch swatch, string filename, ISwatchFile fileType = null)
+        public static void Save(Swatch swatch, string filename, ISwatchFile? fileType = null)
         {
             if (swatch == null || filename == null)
             {
@@ -138,12 +138,12 @@ namespace Banlan.SwatchFiles
             }
         }
 
-        public static Task SaveAsync(Swatch swatch, Stream stream, ISwatchFile fileType = null)
+        public static Task SaveAsync(Swatch swatch, Stream stream, ISwatchFile? fileType = null)
         {
             return Task.Run(() => Save(swatch, stream, fileType));
         }
 
-        public static void Save(Swatch swatch, Stream stream, ISwatchFile fileType)
+        public static void Save(Swatch swatch, Stream stream, ISwatchFile? fileType)
         {
             if (swatch == null || fileType == null)
             {

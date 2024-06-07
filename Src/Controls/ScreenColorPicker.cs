@@ -12,7 +12,7 @@ namespace Banlan
 {
     public class ScreenColorPicker : Control
     {
-        private BitmapData screenShot;
+        private BitmapData? screenShot;
         private readonly Popup previewBox;
         private readonly PreviewView previewView;
         public static readonly RoutedEvent ColorPickedEvent = EventManager.RegisterRoutedEvent(nameof(ColorPicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ScreenColorPicker));
@@ -162,7 +162,7 @@ namespace Banlan
             private const int sampleSize = 9; // pixels in source image
             private readonly ScreenColorPicker screenColorPicker;
             private Point _Position;
-            private BitmapSource SampleImage;
+            private BitmapSource? SampleImage;
 
             public PreviewView(ScreenColorPicker screenColorPicker)
             {

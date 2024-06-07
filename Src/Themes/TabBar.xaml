@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Banlan">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="./Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <Color x:Key="GlyphColor">#FF444444</Color>
 

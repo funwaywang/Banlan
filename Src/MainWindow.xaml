@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Banlan"
         mc:Ignorable="d"
-        Title="Banlan Color Swatch Manage Tool" Icon="App.ico"
+        Title="Banlan Color Swatch Manage Tool" Icon="/App.ico"
         Height="450" Width="800" MinWidth="200" MinHeight="200">
     <Window.CommandBindings>
         <CommandBinding Command="local:Commands.ExtractColorsFromImage" Executed="ExtractColorsFromImage_Executed" />
@@ -59,7 +59,7 @@
                         <Setter Property="Padding" Value="8,4" />
                     </Style>
                 </Menu.Resources>
-                <MenuItem local:Lang.Ids="File">
+                <MenuItem Header="File">
                     <MenuItem Command="ApplicationCommands.New" local:Lang.Ids="New">
                         <MenuItem.Icon>
                             <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16">&#xF61B;</TextBlock>
@@ -85,7 +85,7 @@
                     <Separator/>
                     <MenuItem Command="local:Commands.Exit" local:Lang.Ids="Exit"></MenuItem>
                 </MenuItem>
-                <MenuItem local:Lang.Ids="Tools">
+                <MenuItem Header="Tools">
                     <MenuItem Command="local:Commands.ExtractColorsFromImage" local:Lang.Ids="Extract Colors From Image…">
                         <MenuItem.Icon>
                             <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16">&#xEE71;</TextBlock>

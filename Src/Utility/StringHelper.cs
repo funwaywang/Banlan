@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -81,7 +82,7 @@ namespace Banlan
             return str;
         }
 
-        public static string GetString(object value)
+        public static string? GetString(object value)
         {
             if (value == null || value == DBNull.Value)
             {
@@ -186,7 +187,7 @@ namespace Banlan
                 case byte by:
                     return by > 0;
                 default:
-                    var str = value.ToString().ToLower();
+                    var str = value.ToString()?.ToLower();
                     switch (str)
                     {
                         case "1":
@@ -210,7 +211,7 @@ namespace Banlan
             return GetBool(value) ?? defaultValue;
         }
 
-        public static string EncodeBase64(string code)
+        public static string? EncodeBase64(string code)
         {
             if (code == null)
             {
@@ -221,7 +222,7 @@ namespace Banlan
             return Convert.ToBase64String(bytes);
         }
 
-        public static string DecodeBase64(string code)
+        public static string? DecodeBase64(string code)
         {
             if (code == null)
             {
@@ -317,20 +318,22 @@ namespace Banlan
 
         public static string JoinArray(IList array, int startIndex, int count, string separator)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (int i = startIndex; i < startIndex + count; i++)
             {
-                if (array[i] == null)
+                var item = array[i];
+                if (item != null)
                 {
-                    continue;
-                }
+                    if (sb.Length > 0)
+                    {
+                        sb.Append(separator);
+                    }
 
-                if (sb.Length > 0)
-                {
-                    sb.Append(separator);
+                    if (item.ToString() is string str)
+                    {
+                        sb.Append(str);
+                    }
                 }
-
-                sb.Append(array[i].ToString());
             }
 
             return sb.ToString();
@@ -497,12 +500,15 @@ namespace Banlan
         public static T GetEnumValue<T>(object value, T defaultValue)
             where T : struct
         {
-            if (value == null)
+            var str = value.ToString();
+            if (str == null)
             {
                 return defaultValue;
             }
-
-            return GetEnumValue<T>(value.ToString(), defaultValue);
+            else
+            {
+                return GetEnumValue<T>(str, defaultValue);
+            }
         }
 
         public static T GetEnumValue<T>(string text, T defaultValue)
@@ -679,7 +685,7 @@ namespace Banlan
             return false;
         }
 
-        public static Dictionary<string, string> GetQueryParameters(Uri uri, IEqualityComparer<string> comparer = null)
+        public static Dictionary<string, string> GetQueryParameters(Uri uri, IEqualityComparer<string>? comparer = null)
         {
             if (uri == null)
             {
@@ -700,7 +706,7 @@ namespace Banlan
             }
         }
 
-        public static Dictionary<string, string> GetQueryParameters(string url, IEqualityComparer<string> comparer = null)
+        public static Dictionary<string, string> GetQueryParameters(string url, IEqualityComparer<string>? comparer = null)
         {
             if (url == null)
             {
@@ -739,7 +745,8 @@ namespace Banlan
             }
         }
 
-        public static string LimitStringLength(string str, int maxLength, bool singleLine = false, string overflowText = "…")
+        [return: NotNullIfNotNull(nameof(str))]
+        public static string? LimitStringLength(string str, int maxLength, bool singleLine = false, string overflowText = "…")
         {
             if (str == null)
             {
@@ -926,7 +933,7 @@ namespace Banlan
             }
         }
 
-        public static string ToCamelCase(string text)
+        public static string? ToCamelCase(string text)
         {
             if (text != null && text.Length > 0)
             {

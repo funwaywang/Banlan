@@ -23,11 +23,11 @@ namespace Banlan
 
         public int OwnerId { get; set; }
         public int Lcid { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string NativeName { get; set; }
-        public string LcidHex
+        public string? Code { get; set; }
+        public string? Name { get; set; }
+        public string? DisplayName { get; set; }
+        public string? NativeName { get; set; }
+        public string? LcidHex
         {
             get => Lcid.ToString("X4");
         }

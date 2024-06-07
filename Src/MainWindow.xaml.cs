@@ -24,9 +24,9 @@ namespace Banlan
     public partial class MainWindow : Window
     {
         private readonly StartPage startPage;
-        private HistoryListView historyListView;
-        private SettingsPage settingsPage;
-        private OpenFileDialog openFileDialog;
+        private HistoryListView? historyListView;
+        private SettingsPage? settingsPage;
+        private OpenFileDialog? openFileDialog;
         private int FromClipboardIndex = 1;
         private int NewSwatchIndex = 1;
         public static readonly DependencyProperty CurrentDocumentViewProperty = DependencyProperty.Register(nameof(CurrentDocumentView), typeof(DocumentView), typeof(MainWindow));
@@ -47,13 +47,13 @@ namespace Banlan
             e.Accepted = e.Item is SwatchView;
         }
 
-        public static MainWindow Current { get; private set; }
+        public static MainWindow? Current { get; private set; }
 
         public ObservableCollection<DocumentView> Documents { get; private set; } = new ObservableCollection<DocumentView>();
 
-        public DocumentView CurrentDocumentView
+        public DocumentView? CurrentDocumentView
         {
-            get => (DocumentView)GetValue(CurrentDocumentViewProperty);
+            get => (DocumentView?)GetValue(CurrentDocumentViewProperty);
             set => SetValue(CurrentDocumentViewProperty, value);
         }
 
@@ -112,7 +112,7 @@ namespace Banlan
             }
         }
 
-        public async void OpenFileAsync(string filename, ISwatchFile fileType = null)
+        public async void OpenFileAsync(string filename, ISwatchFile? fileType = null)
         {
             if (string.IsNullOrWhiteSpace(filename))
             {
@@ -192,7 +192,7 @@ namespace Banlan
             openFileDialog.Title = "Open Multi-Files as One…";
             if (openFileDialog.ShowDialog(this) == true && openFileDialog.FileNames != null)
             {
-                ISwatchFile fileType = null;
+                ISwatchFile? fileType = null;
                 var filterIndex = openFileDialog.FilterIndex - 2;
                 if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedRead.Length)
                 {
@@ -374,7 +374,7 @@ namespace Banlan
 
         private void CopyColor(object color, IColorTextFormatter formatter)
         {
-            string text = null;
+            string? text = null;
             if (color is ColorBase cb)
             {
                 text = formatter?.Format(cb) ?? ColorHelper.ToHexColor(cb.R, cb.G, cb.B);
@@ -502,7 +502,7 @@ namespace Banlan
             e.CanExecute = Directory.Exists(path);
         }
 
-        private void ShowOpenDialog(string initialDirectory)
+        private void ShowOpenDialog(string? initialDirectory)
         {
             if (openFileDialog == null)
             {
@@ -521,7 +521,7 @@ namespace Banlan
             openFileDialog.Title = "Open…";
             if (openFileDialog.ShowDialog(this) == true && openFileDialog.FileNames != null)
             {
-                ISwatchFile fileType = null;
+                ISwatchFile? fileType = null;
                 var filterIndex = openFileDialog.FilterIndex - 2;
                 if (filterIndex > -1 && filterIndex < SwatchFileManage.SupportedRead.Length)
                 {

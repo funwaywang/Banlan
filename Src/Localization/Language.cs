@@ -24,21 +24,21 @@ namespace Banlan
 
         public int Id { get; set; }
 
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
 
-        public string NativeName { get; set; }
+        public string? NativeName { get; set; }
 
         public bool IsRightToLeft { get; set; }
 
-        public string FlagName { get; set; }
+        public string? FlagName { get; set; }
 
         public int Revision { get; set; }
 
-        public LanguageCompatibleItem[] CompatibleItems { get; set; }
+        public LanguageCompatibleItem[] CompatibleItems { get; set; } = [];
 
         public Dictionary<string, string> Words { get; private set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 

@@ -10,11 +10,11 @@ namespace Banlan
     public class SwatchFileSummary : INotifyPropertyChanged
     {
         private const int GeneralSamplesCount = 6;
-        private string _FileName;
-        private Color[] _Samples;
+        private string? _FileName;
+        private Color[]? _Samples;
         private DateTime _UpdateTime;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public SwatchFileSummary()
         {
@@ -30,7 +30,7 @@ namespace Banlan
             }
         }
 
-        public string FileName
+        public string? FileName
         {
             get => _FileName;
             set
@@ -43,7 +43,7 @@ namespace Banlan
             }
         }
 
-        public Color[] Samples
+        public Color[]? Samples
         {
             get => _Samples;
             set

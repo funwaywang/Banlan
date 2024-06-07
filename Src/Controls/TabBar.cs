@@ -8,7 +8,7 @@ namespace Banlan
 {
     public class TabBar : ListBox
     {
-        private ScrollViewer scrollViewer;
+        private ScrollViewer? scrollViewer;
         public static readonly DependencyProperty IsOverflowProperty = DependencyProperty.Register(nameof(IsOverflow), typeof(bool), typeof(TabBar), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty CanScrollLeftProperty = DependencyProperty.Register(nameof(CanScrollLeft), typeof(bool), typeof(TabBar), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty CanScrollRightProperty = DependencyProperty.Register(nameof(CanScrollRight), typeof(bool), typeof(TabBar), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -60,16 +60,19 @@ namespace Banlan
 
         private void RefreshScrollInfo()
         {
-            IsOverflow = scrollViewer.ScrollableWidth > 0;
-            CanScrollLeft = scrollViewer.ScrollableWidth > 0 && scrollViewer.HorizontalOffset > 0;
-            CanScrollRight = scrollViewer.ScrollableWidth > 0 && scrollViewer.HorizontalOffset < scrollViewer.ScrollableWidth;
+            if (scrollViewer != null)
+            {
+                IsOverflow = scrollViewer.ScrollableWidth > 0;
+                CanScrollLeft = scrollViewer.ScrollableWidth > 0 && scrollViewer.HorizontalOffset > 0;
+                CanScrollRight = scrollViewer.ScrollableWidth > 0 && scrollViewer.HorizontalOffset < scrollViewer.ScrollableWidth;
+            }
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             base.OnSelectionChanged(e);
 
-            if(SelectedItem != null)
+            if (SelectedItem != null)
             {
                 ScrollIntoView(SelectedItem);
             }

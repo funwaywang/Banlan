@@ -38,7 +38,7 @@ namespace Banlan.SwatchFiles
 
                 var swatch = new Swatch();
                 var name = reader.ReadLine();
-                if (name.StartsWith("Name:"))
+                if (name != null && name.StartsWith("Name:"))
                 {
                     swatch.Name = name.Substring(5, name.Length - 5).Trim();
                 }

@@ -47,10 +47,10 @@ namespace Banlan
 
         public static implicit operator LangId(string langId)
         {
-            if (langId == null)
-            {
-                return null;
-            }
+            //if (langId == null)
+            //{
+            //    return null;
+            //}
 
             return new LangId(langId);
         }

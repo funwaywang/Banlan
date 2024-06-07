@@ -65,7 +65,7 @@ namespace Banlan.SwatchFiles
                     var blockType = (BlockType)reader.ReadUInt16();
                     var blockLength = reader.ReadUInt32();
                     var position = stream.Position;
-                    string name = null;
+                    string? name = null;
 
                     switch (blockType)
                     {
@@ -104,7 +104,7 @@ namespace Banlan.SwatchFiles
             }
         }
 
-        private string ReadName(BigEndianBinaryReader reader)
+        private string? ReadName(BigEndianBinaryReader reader)
         {
             var length = reader.ReadInt16();
             if (length > 0)
@@ -175,9 +175,9 @@ namespace Banlan.SwatchFiles
                     writer.Write((ushort)BlockType.GroupStart);
 
                     var blockLength = 0;
-                    byte[] nameBytes = null;
-                    var name = category.Name ?? "";
-                    if (name != null)
+                    byte[]? nameBytes = null;
+                    string name = category.Name ?? string.Empty;
+                    if (name.Length > 0)
                     {
                         nameBytes = Encoding.BigEndianUnicode.GetBytes(name);
                         blockLength += 2 + nameBytes.Length + 2;
@@ -214,7 +214,7 @@ namespace Banlan.SwatchFiles
                 writer.Write((ushort)BlockType.Color);
 
                 string colorMode;
-                float[] data = null;
+                float[]? data = null;
                 if (color is CmykColor cmyk)
                 {
                     colorMode = "CMYK";
@@ -238,9 +238,9 @@ namespace Banlan.SwatchFiles
 
                 var blockLength = 4 + data.Length * 4 + 2;
 
-                byte[] nameBytes = null;
-                var name = color.Name ?? "";
-                if (name != null)
+                byte[]? nameBytes = null;
+                string name = color.Name ?? string.Empty;
+                if (name.Length > 0)
                 {
                     nameBytes = Encoding.BigEndianUnicode.GetBytes(name);
                     blockLength += 2 + nameBytes.Length + 2;

@@ -14,7 +14,7 @@ namespace Banlan
         private const long OneMegaByte = OneKiloByte * 1024;
         private const long OneGigaByte = OneMegaByte * 1024;
 
-        public object GetFormat(Type formatType)
+        public object? GetFormat(Type? formatType)
         {
             if (formatType == typeof(ICustomFormatter) || formatType == typeof(NumberFormatInfo))
             {
@@ -24,16 +24,16 @@ namespace Banlan
             return null;
         }
 
-        public string Format(string format, object arg, IFormatProvider formatProvider)
+        public string Format(string? format, object? arg, IFormatProvider? formatProvider)
         {
             if (format == null || !format.StartsWith(FileSizeFormat))
             {
-                return DefaultFormat(format, arg, formatProvider);
+                return DefaultFormat(format, arg, formatProvider) ?? string.Empty;
             }
 
             if (arg is string)
             {
-                return DefaultFormat(format, arg, formatProvider);
+                return DefaultFormat(format, arg, formatProvider) ?? string.Empty;
             }
 
             double size;
@@ -44,7 +44,7 @@ namespace Banlan
             }
             catch (InvalidCastException)
             {
-                return DefaultFormat(format, arg, formatProvider);
+                return DefaultFormat(format, arg, formatProvider) ?? string.Empty;
             }
 
             string suffix;
@@ -105,14 +105,14 @@ namespace Banlan
             return string.Format("{0:N" + precision + "} {1}", size, suffix);
         }
 
-        private static string DefaultFormat(string format, object arg, IFormatProvider formatProvider)
+        private static string? DefaultFormat(string? format, object? arg, IFormatProvider? formatProvider)
         {
             if (arg is IFormattable formattableArg)
             {
                 return formattableArg.ToString(format, formatProvider);
             }
 
-            return arg.ToString();
+            return arg?.ToString();
         }
     }
 }

@@ -1,27 +1,18 @@
-﻿using Banlan.Core;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Banlan.Core;
+using Microsoft.Win32;
 
 namespace Banlan
 {
     public partial class ExtractImageColorsView : DocumentView
     {
-        private ColorAnalyser analyser;
-        private readonly BitmapData ImageData;
+        private ColorAnalyser? analyser;
+        private readonly BitmapData? ImageData;
         private const string ImagesFilter = "All Images (*.jpg;*.png;*.gif;*.bmp;*.tiff)|*.jpg;*.jpeg;*.jfif;*.png;*.gif;*.bmp;*.tiff;|All Files (*.*)|*.*";
         public static DependencyProperty ColorsNumberProperty = DependencyProperty.Register(nameof(ColorsNumber), typeof(int), typeof(ExtractImageColorsView), new PropertyMetadata(5));
         public static DependencyProperty IsAnalysingProperty = DependencyProperty.Register(nameof(IsAnalysing), typeof(bool), typeof(ExtractImageColorsView), new PropertyMetadata(false));
@@ -42,7 +33,7 @@ namespace Banlan
             SetBinding(ColorTextFormatterProperty, new Binding(nameof(AppStatus.SelectedFormatter)) { Source = AppStatus.Default, Mode = BindingMode.OneWay });
         }
 
-        public ExtractImageColorsView(BitmapData imageData, BitmapImage previewImage, string filename = null)
+        public ExtractImageColorsView(BitmapData imageData, BitmapImage previewImage, string? filename = null)
             : this()
         {
             ImageData = imageData;
@@ -86,15 +77,15 @@ namespace Banlan
             set => SetValue(ColorTextFormatterProperty, value);
         }
 
-        public ColorViewModel BackColor
+        public ColorViewModel? BackColor
         {
-            get => (ColorViewModel)GetValue(BackColorProperty);
+            get => (ColorViewModel?)GetValue(BackColorProperty);
             set => SetValue(BackColorProperty, value);
         }
 
-        public ColorViewModel ForeColor
+        public ColorViewModel? ForeColor
         {
-            get => (ColorViewModel)GetValue(ForeColorProperty);
+            get => (ColorViewModel?)GetValue(ForeColorProperty);
             set => SetValue(ForeColorProperty, value);
         }
 
@@ -187,11 +178,11 @@ namespace Banlan
             var foreColor = backColor.HasValue ? analyser.ChooseTextColor(backColor.Value, palettes) : (System.Drawing.Color?)null;
             this.RunInUIThread(() =>
             {
-                SetResult(palettes, backColor, foreColor);
+                SetResult(analyser, palettes, backColor, foreColor);
             });
         }
 
-        private void SetResult(Palette[] palettes, System.Drawing.Color? backColor, System.Drawing.Color? foreColor)
+        private void SetResult(ColorAnalyser analyser, Palette[]? palettes, System.Drawing.Color? backColor, System.Drawing.Color? foreColor)
         {
             ColorPoints.Clear();
             BackColor = backColor.HasValue ? new ColorViewModel(backColor.Value) : null;
@@ -228,7 +219,7 @@ namespace Banlan
             }
         }
 
-        public static ExtractImageColorsView FromClipboard()
+        public static ExtractImageColorsView? FromClipboard()
         {
             if (Clipboard.ContainsImage())
             {
@@ -247,7 +238,7 @@ namespace Banlan
             return null;
         }
 
-        public static Task<ExtractImageColorsView> OpenImageFileAsync(Window owner)
+        public static Task<ExtractImageColorsView?> OpenImageFileAsync(Window owner)
         {
             var openFileDialog = new OpenFileDialog
             {
@@ -257,19 +248,19 @@ namespace Banlan
 
             if (openFileDialog.ShowDialog(owner) != true)
             {
-                return Task.FromResult<ExtractImageColorsView>(null);
+                return Task.FromResult<ExtractImageColorsView?>(null);
             }
 
             return FromImageFileAsync(openFileDialog.FileName);
         }
 
-        public static async Task<ExtractImageColorsView> FromImageFileAsync(string filename)
+        public static async Task<ExtractImageColorsView?> FromImageFileAsync(string filename)
         {
             if (string.IsNullOrEmpty(filename))
             {
                 throw new Exception("Invalid File Name.");
             }
-            if (!File.Exists(filename))
+            else if (!File.Exists(filename))
             {
                 throw new FileNotFoundException();
             }

@@ -41,15 +41,18 @@ namespace Banlan.SwatchFiles
                 Name = (dom.DocumentElement.SelectSingleNode("info/title") as XmlElement)?.InnerText
             };
 
-            foreach (XmlElement node in dom.DocumentElement.SelectNodes("colors/item"))
+            if (dom.DocumentElement.SelectNodes("colors/item") is XmlNodeList itemNodes)
             {
-                var color = ColorHelper.ParseColor(node.GetAttribute("value"));
-                if (color != null)
+                foreach (XmlElement node in itemNodes)
                 {
-                    swatch.Colors.Add(new RgbColor(color.Value.R, color.Value.G, color.Value.B)
+                    var color = ColorHelper.ParseColor(node.GetAttribute("value"));
+                    if (color != null)
                     {
-                        Name = node.GetAttribute("name")
-                    });
+                        swatch.Colors.Add(new RgbColor(color.Value.R, color.Value.G, color.Value.B)
+                        {
+                            Name = node.GetAttribute("name")
+                        });
+                    }
                 }
             }
 
@@ -66,7 +69,8 @@ namespace Banlan.SwatchFiles
         private void SaveToXml(Swatch swatch, XmlDocument dom)
         {
             dom.AppendChild(dom.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-            dom.AppendChild(dom.CreateElement("root"));
+            var documentElement = dom.CreateElement("root");
+            dom.AppendChild(documentElement);
 
             if (!string.IsNullOrWhiteSpace(swatch.Name))
             {
@@ -74,11 +78,11 @@ namespace Banlan.SwatchFiles
                 title.InnerText = swatch.Name;
                 var info = dom.CreateElement("info");
                 info.AppendChild(title);
-                dom.DocumentElement.AppendChild(info);
+                documentElement.AppendChild(info);
             }
 
             var colors = dom.CreateElement("colors");
-            dom.DocumentElement.AppendChild(colors);
+            documentElement.AppendChild(colors);
             foreach (var c in swatch.Colors.Union(swatch.Categories.SelectMany(c => c.Colors)))
             {
                 var item = dom.CreateElement("item");

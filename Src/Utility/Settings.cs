@@ -14,47 +14,58 @@ namespace Banlan
         public static readonly Settings Default = new Settings();
         private readonly string FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(Banlan), "Settings.xml");
 
-        public Dictionary<string, string> Values { get; private set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, string?> Values { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
 
         public ObservableCollection<SwatchFileSummary> RecentFiles { get; private set; } = new ObservableCollection<SwatchFileSummary>();
 
-        public string this[string name]
+        public string? this[string name]
         {
-            get => Values.TryGetValue(name, out string value) ? value : null;
+            get => Values.TryGetValue(name, out string? value) ? value : null;
             set => Values[name] = value;
         }
 
         public void Save()
         {
             var directory = Path.GetDirectoryName(FileName);
-            if (!Directory.Exists(directory))
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
             var dom = new XmlDocument();
             dom.AppendChild(dom.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-            dom.AppendChild(dom.CreateElement("settings"));
+
+            var documentElement = dom.CreateElement("settings");
+            dom.AppendChild(documentElement);
 
             var values = dom.CreateElement("values");
-            dom.DocumentElement.AppendChild(values);
+            documentElement.AppendChild(values);
             foreach (var value in Values)
             {
-                var valueElement = dom.CreateElement("item");
-                valueElement.SetAttribute("name", value.Key);
-                valueElement.InnerText = value.Value;
-                values.AppendChild(valueElement);
+                if (value.Value != null)
+                {
+                    var valueElement = dom.CreateElement("item");
+                    valueElement.SetAttribute("name", value.Key);
+                    valueElement.InnerText = value.Value;
+                    values.AppendChild(valueElement);
+                }
             }
 
             var recentFiles = dom.CreateElement("recent_files");
-            dom.DocumentElement.AppendChild(recentFiles);
+            documentElement.AppendChild(recentFiles);
             var count = 0;
             foreach (var file in RecentFiles)
             {
                 var fileElement = dom.CreateElement("file");
-                fileElement.SetAttribute("samples", string.Join(",", file.Samples.Select(s => ColorHelper.ToHexColor(s))));
+                if(file.Samples != null)
+                {
+                    fileElement.SetAttribute("samples", string.Join(",", file.Samples.Select(s => ColorHelper.ToHexColor(s))));
+                }
                 fileElement.SetAttribute("update_time", file.UpdateTime.ToString("yyyy/MM/dd HH:mm:ss"));
-                fileElement.InnerText = file.FileName;
+                if (file.FileName != null)
+                {
+                    fileElement.InnerText = file.FileName;
+                }
                 recentFiles.AppendChild(fileElement);
 
                 count++;
@@ -82,37 +93,44 @@ namespace Banlan
 
                 if (dom.DocumentElement?.Name == "settings")
                 {
-                    foreach (var node in dom.DocumentElement.SelectNodes("values/item").OfType<XmlElement>())
+                    if (dom.DocumentElement.SelectNodes("values/item") is XmlNodeList itemNodes)
                     {
-                        var name = node.GetAttribute("name");
-                        if (name != null)
+                        foreach (var node in itemNodes.OfType<XmlElement>())
                         {
-                            Values[name] = node.InnerText;
+                            var name = node.GetAttribute("name");
+                            if (name != null)
+                            {
+                                Values[name] = node.InnerText;
+                            }
                         }
                     }
 
-                    foreach (var node in dom.DocumentElement.SelectNodes("recent_files/file").OfType<XmlElement>())
+                    if (dom.DocumentElement.SelectNodes("recent_files/file") is XmlNodeList fileNodes)
                     {
-                        var recentFile = new SwatchFileSummary
+                        foreach (var node in fileNodes.OfType<XmlElement>())
                         {
-                            FileName = node.InnerText,
-                            Samples = (from cs in node.GetAttribute("samples").Split(',')
-                                       let co = ColorHelper.ParseColor(cs)
-                                       where co != null
-                                       select co.Value).ToArray()
-                        };
-                        if (DateTime.TryParse(node.GetAttribute("update_time"), out DateTime updateTime))
-                        {
-                            recentFile.UpdateTime = updateTime;
-                        }
-                        else
-                        {
-                            recentFile.UpdateTime = DateTime.Now;
-                        }
+                            var recentFile = new SwatchFileSummary
+                            {
+                                FileName = node.InnerText,
+                                Samples = (from cs in node.GetAttribute("samples").Split(',')
+                                           let co = ColorHelper.ParseColor(cs)
+                                           where co != null
+                                           select co.Value).ToArray()
+                            };
 
-                        if (!string.IsNullOrEmpty(recentFile.FileName))
-                        {
-                            RecentFiles.Add(recentFile);
+                            if (DateTime.TryParse(node.GetAttribute("update_time"), out DateTime updateTime))
+                            {
+                                recentFile.UpdateTime = updateTime;
+                            }
+                            else
+                            {
+                                recentFile.UpdateTime = DateTime.Now;
+                            }
+
+                            if (!string.IsNullOrEmpty(recentFile.FileName))
+                            {
+                                RecentFiles.Add(recentFile);
+                            }
                         }
                     }
                 }
@@ -121,22 +139,20 @@ namespace Banlan
 
         public void AddRecentFile(SwatchFileSummary swatchFile)
         {
-            if (swatchFile == null && !string.IsNullOrEmpty(swatchFile.FileName))
+            if (!string.IsNullOrEmpty(swatchFile.FileName))
             {
-                return;
-            }
+                foreach (var old in RecentFiles.Where(rf => string.Equals(rf.FileName, swatchFile.FileName, StringComparison.OrdinalIgnoreCase)).ToList())
+                {
+                    RecentFiles.Remove(old);
+                }
 
-            foreach (var old in RecentFiles.Where(rf => string.Equals(rf.FileName, swatchFile.FileName, StringComparison.OrdinalIgnoreCase)).ToList())
-            {
-                RecentFiles.Remove(old);
-            }
+                while (RecentFiles.Count >= MaxRecentFiles)
+                {
+                    RecentFiles.RemoveAt(0);
+                }
 
-            while (RecentFiles.Count >= MaxRecentFiles)
-            {
-                RecentFiles.RemoveAt(0);
+                RecentFiles.Add(swatchFile);
             }
-
-            RecentFiles.Add(swatchFile);
         }
 
         public void Remove(string item)
@@ -147,9 +163,9 @@ namespace Banlan
             }
         }
 
-        public string Get(string name, string defaultValue = null)
+        public string? Get(string name, string? defaultValue = null)
         {
-            return Values.TryGetValue(name, out string value) ? value : defaultValue;
+            return Values.TryGetValue(name, out string? value) ? value : defaultValue;
         }
 
         public void Set(string name, string value)

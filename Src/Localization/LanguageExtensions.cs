@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Banlan
@@ -7,7 +8,8 @@ namespace Banlan
     {
         private static readonly Regex WordWithMarkRegex = new Regex(@"(\w.*\w)([\s\W]+)", RegexOptions.Compiled);
 
-        public static string GetText(this Language current, string name)
+        [return: NotNullIfNotNull(nameof(name))]
+        public static string? GetText(this Language current, string? name)
         {
             if (string.IsNullOrEmpty(name) || current == null)
             {
@@ -56,7 +58,7 @@ namespace Banlan
             }
         }
 
-        public static string GetTextAny(this Language current, string name, params string[] names)
+        public static string? GetTextAny(this Language current, string name, params string[] names)
         {
             if (names == null || names.Length == 0)
             {
@@ -102,7 +104,7 @@ namespace Banlan
             }
         }
 
-        public static string GetTextWithEllipsis(this Language current, string name)
+        public static string? GetTextWithEllipsis(this Language current, string name)
         {
             if (current != null && current.Words.ContainsKey(name))
             {
@@ -114,27 +116,27 @@ namespace Banlan
             }
         }
 
-        public static string GetTextWithColon(this Language current, string name)
+        public static string? GetTextWithColon(this Language current, string name)
         {
             return GetText(current, name, false, true, '\0');
         }
 
-        public static string GetTextWithAccelerator(this Language current, string name, bool withEllipsis, char accelerator)
+        public static string? GetTextWithAccelerator(this Language current, string name, bool withEllipsis, char accelerator)
         {
             return GetText(current, name, true, false, accelerator);
         }
 
-        public static string GetTextWithAccelerator(this Language current, string name, char accelerator)
+        public static string? GetTextWithAccelerator(this Language current, string name, char accelerator)
         {
             return GetText(current, name, false, false, accelerator);
         }
 
-        public static string GetText(this Language current, LangId langId)
+        public static string? GetText(this Language current, LangId langId)
         {
             return GetText(current, langId.LanguageId, langId.WithEllipsis, langId.WithColon, langId.Accelerator);
         }
 
-        public static string GetText(this Language current, string name, bool withEllipsis, bool withColon, char accelerator)
+        public static string? GetText(this Language current, string name, bool withEllipsis, bool withColon, char accelerator)
         {
             var str = (current != null && current.Words.ContainsKey(name)) ? current.Words[name] : name;
             if (str == null)
@@ -165,21 +167,25 @@ namespace Banlan
             return Format(current, name, true, args);
         }
 
-        public static string Format(this Language current, string name, bool withArgs, params object[] args)
+        public static string Format(this Language current, string name, bool withArgs, params object?[] args)
         {
             if (withArgs && args != null)
             {
                 for (int i = 0; i < args.Length; i++)
                 {
-                    object arg = args[i];
+                    object? arg = args[i];
                     if (arg is string)
                     {
                         args[i] = GetText(current, (string)arg);
                     }
                 }
-            }
 
-            return string.Format(GetText(current, name), args);
+                return string.Format(GetText(current, name), args);
+            }
+            else
+            {
+                return GetText(current, name);
+            }
         }
     }
 }

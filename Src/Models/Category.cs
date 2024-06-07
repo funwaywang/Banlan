@@ -11,16 +11,16 @@ namespace Banlan
 {
     public class Category : IEnumerable<ColorBase>, INotifyPropertyChanged
     {
-        private string _Name;
+        private string? _Name;
         private bool _IsOpen = true;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Category()
         {
         }
 
-        public Category(string name, IEnumerable<ColorBase> colors = null)
+        public Category(string name, IEnumerable<ColorBase>? colors = null)
         {
             Name = name;
             if (colors != null)
@@ -45,7 +45,7 @@ namespace Banlan
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => _Name;
             set

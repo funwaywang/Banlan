@@ -23,7 +23,7 @@ namespace Banlan.Core
 
         public override string ToString()
         {
-            return $"{string.Join(",", Mean?.Select(c => c.ToString()))}${Count}";
+            return $"{string.Join(",", Mean.Select(c => c.ToString() ?? string.Empty))}${Count}";
         }
 
         public Color GetColor()

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Xml;
 
 namespace Banlan
 {
     public class LanguageManage : IEnumerable<Language>, INotifyPropertyChanged
     {
-        private Language _CurrentLanguage;
+        private Language? _CurrentLanguage;
         public static readonly LanguageManage Default = new LanguageManage { Language.Default };
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Language CurrentLanguage
+        public Language? CurrentLanguage
         {
             get => _CurrentLanguage;
             private set
@@ -43,14 +39,14 @@ namespace Banlan
             }
         }
 
-        public Language LoadXmlString(string xml)
+        public Language? LoadXmlString(string xml)
         {
             var dom = new XmlDocument();
             dom.LoadXml(xml);
             return LoadXml(dom);
         }
 
-        public Language LoadXml(string filename)
+        public Language? LoadXml(string filename)
         {
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
             {
@@ -65,7 +61,7 @@ namespace Banlan
             }
         }
 
-        public Language LoadXml(Stream stream)
+        public Language? LoadXml(Stream stream)
         {
             var dom = new XmlDocument();
             try
@@ -80,7 +76,7 @@ namespace Banlan
             return LoadXml(dom);
         }
 
-        public Language LoadXml(XmlDocument dom)
+        public Language? LoadXml(XmlDocument dom)
         {
             if (dom.DocumentElement == null)
             {
@@ -141,7 +137,7 @@ namespace Banlan
 
         private void LoadXmlNodes(Dictionary<string, string> words, XmlNode group)
         {
-            XmlNodeList list = group.SelectNodes("item");
+            XmlNodeList? list = group.SelectNodes("item");
             if (list != null)
             {
                 foreach (XmlElement node in list)
@@ -190,7 +186,10 @@ namespace Banlan
             }
 
             var dom = new XmlDocument();
-            dom.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><dictionary/>");
+            dom.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+
+            var documentElement = dom.CreateElement("dictionary");
+            dom.AppendChild(documentElement);
 
             var infoElement = dom.CreateElement("information");
             infoElement.SetAttribute("id", language.Id.ToString());
@@ -198,7 +197,7 @@ namespace Banlan
             infoElement.SetAttribute("name", language.Name);
             infoElement.SetAttribute("revision", language.Revision.ToString());
             infoElement.SetAttribute("is_right_to_left", language.IsRightToLeft.ToString());
-            dom.DocumentElement.AppendChild(infoElement);
+            documentElement.AppendChild(infoElement);
 
             if (language.CompatibleItems.Any())
             {
@@ -210,7 +209,7 @@ namespace Banlan
                     ciElement.SetAttribute("code", ci.Code);
                     compatibilityElement.AppendChild(ciElement);
                 }
-                dom.DocumentElement.AppendChild(compatibilityElement);
+                documentElement.AppendChild(compatibilityElement);
             }
 
             var wordsElement = dom.CreateElement("words");
@@ -221,7 +220,7 @@ namespace Banlan
                 itemElement.InnerText = word.Value;
                 wordsElement.AppendChild(itemElement);
             }
-            dom.DocumentElement.AppendChild(wordsElement);
+            documentElement.AppendChild(wordsElement);
 
             return dom;
         }
@@ -268,7 +267,7 @@ namespace Banlan
             }
         }
 
-        public void SelectOrDefault(string code = null)
+        public void SelectOrDefault(string? code = null)
         {
             if (!string.IsNullOrEmpty(code) && Languages.FirstOrDefault(lg => string.Equals(lg.Code, code, StringComparison.OrdinalIgnoreCase)) is Language lang)
             {
