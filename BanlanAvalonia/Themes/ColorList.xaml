@@ -1,0 +1,62 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Banlan">
+    <local:StringIsEmptyConverter x:Key="StringIsEmptyConverter" />
+
+    <ContextMenu x:Key="ColorListItemContextMenu">
+        <MenuItem Command="ApplicationCommands.Copy"></MenuItem>
+        <MenuItem Header="Copy As"
+                  ItemsSource="{Binding ColorTextFormatters, Source={x:Static local:AppStatus.Default}}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Command" Value="ApplicationCommands.Copy" />
+                    <Setter Property="CommandParameter" Value="{Binding}" />
+                    <Setter Property="Header" Value="{Binding Name}" />                    
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <MenuItem Command="ApplicationCommands.Delete" CommandParameter="{Binding}" />
+        <Separator />
+        <MenuItem Command="ApplicationCommands.Properties" />
+    </ContextMenu>
+
+    <ControlTemplate x:Key="ColorListItemTemplate" TargetType="ListBoxItem">
+        <Grid>
+            <Border Padding="2" 
+                    Width="120"
+                    Height="40"
+                    Background="{Binding Background}"
+                    ToolTip="{TemplateBinding ToolTip}">
+                <TextBlock Text="{Binding Text}" Foreground="{Binding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Border Name="OutBox" BorderThickness="4">
+            </Border>
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="local:Commands.SelectColor" CommandParameter="{Binding}" />
+            </Grid.InputBindings>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="OutBox" Property="BorderBrush" Value="#9fff" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="OutBox" Property="BorderBrush" Value="#9fff" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="ColorListItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Template" Value="{DynamicResource ColorListItemTemplate}" />
+        <Setter Property="ContextMenu" Value="{StaticResource ColorListItemContextMenu}" />
+        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Name, Converter={StaticResource StringIsEmptyConverter}}" Value="False">
+                <Setter Property="ToolTip" Value="{Binding Name}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ColorListPanelStyle" TargetType="Panel">
+        <Setter Property="Margin" Value="2,4" />
+    </Style>
+</ResourceDictionary>

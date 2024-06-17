@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+  <information id="1033" code="en-US" name="English" />
+  <compatibility>
+    <lcid value="2057"/>
+  </compatibility>
+  <words>
+    <item name="Hello">Hello</item>
+  </words>
+</dictionary>

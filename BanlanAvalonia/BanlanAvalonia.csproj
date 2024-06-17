@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <RootNamespace>Banlan</RootNamespace>
+    <AssemblyName>Banlan</AssemblyName>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Remove="Assets\Icons.xaml" />
+    <AvaloniaResource Remove="Assets\Images\camera.png" />
+    <AvaloniaResource Remove="Assets\Images\flat-jewels-icon-set.txt" />
+    <AvaloniaResource Remove="Assets\Images\folder.png" />
+    <AvaloniaResource Remove="Assets\Images\save.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="App.ico" />
+    <None Remove="Assets\Icons.xaml" />
+    <None Remove="Langs\en.US.xml" />
+    <None Remove="Langs\zh.CHS.xml" />
+    <None Remove="Themes\Brushes.xaml" />
+    <None Remove="Themes\Buttons.xaml" />
+    <None Remove="Themes\ColorFormatComboBoxStyle.xaml" />
+    <None Remove="Themes\ColorList.Drop.xaml" />
+    <None Remove="Themes\ColorList.Squama.xaml" />
+    <None Remove="Themes\ColorList.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+    <None Remove="Themes\ImagePickBox.xaml" />
+    <None Remove="Themes\TabBar.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+    <PackageReference Include="Colourful" Version="3.2.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="App.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Themes\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorFormatComboBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorList.Drop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorList.Squama.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ImagePickBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TabBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Langs\en.US.xml" />
+    <Resource Include="Langs\zh.CHS.xml" />
+  </ItemGroup>
+</Project>

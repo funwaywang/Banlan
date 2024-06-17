@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+  <information id="0x0804" code="zh-CN" name="简体中文" />
+  <compatibility>
+    <lcid code="zh" value="0x7804"/>
+    <lcid code="zh-CHS" value="0x0004"/>
+    <lcid code="zh-Hans-MO" value="0x1000"/>
+  </compatibility>
+  <words>
+    <item name="Hello">你好</item>
+    <item name="Banlan Color Swatch Manage Tool">Banlan 斑斓色卡管理工具</item>
+    <item name="File">文件</item>
+    <item name="Tools">工具</item>
+    <item name="New">新建</item>
+    <item name="Open">打开</item>
+    <item name="Open Multi-Files as One">合并打开多个文件</item>
+    <item name="Save">保存</item>
+    <item name="Save As">另存为</item>
+    <item name="Extract Colors From Image">从图像中提取颜色</item>
+    <item name="Parse Image">黏贴图片</item>
+    <item name="History">历史</item>
+    <item name="Settings">设置</item>
+    <item name="Exit">退出</item>
+    <item name="Start">开始</item>
+    <item name="UI Language">界面语言</item>
+    <item name="Recent Files">最近访问的文件</item>
+    <item name="Open in Tab">在Tab中打开</item>
+    <item name="Add to new swatch">添加到新色卡</item>
+  </words>
+</dictionary>
