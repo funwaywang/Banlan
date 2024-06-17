@@ -102,7 +102,7 @@ namespace Banlan
                 {
                     await SwatchFileManage.SaveAsync(Swatch.Swatch, Swatch.FileName);
                     IsModified = false;
-                    Settings.Default.AddRecentFile(new SwatchFileSummary(Swatch.Swatch));
+                    RecentFile.Default.AddRecentFile(new SwatchFileSummary(Swatch.Swatch));
                     return true;
                 }
                 catch (Exception ex)
@@ -161,7 +161,7 @@ namespace Banlan
 
                     await SwatchFileManage.SaveAsync(Swatch.Swatch, filename, fileType);
                     IsModified = false;
-                    Settings.Default.AddRecentFile(new SwatchFileSummary(Swatch.Swatch));
+                    RecentFile.Default.AddRecentFile(new SwatchFileSummary(Swatch.Swatch));
                     return true;
                 }
                 catch (Exception ex)

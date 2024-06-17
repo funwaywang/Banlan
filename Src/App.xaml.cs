@@ -1,15 +1,5 @@
-﻿using Banlan.SwatchFiles;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
-using System.Xml;
 
 namespace Banlan
 {
@@ -23,6 +13,7 @@ namespace Banlan
             {
                 // load settings
                 Settings.Default.Load();
+                RecentFile.Default.Load();
 
                 // load & select language
                 LanguageManage.Default.LoadFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Langs"));

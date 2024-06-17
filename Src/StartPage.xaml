@@ -10,7 +10,7 @@
     <local:DocumentView.Resources>        
         <local:PathToNameConverter x:Key="PathToNameConverter" />
         <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
-        <CollectionViewSource x:Key="RecentFiles" Source="{Binding Path=RecentFiles, Source={x:Static local:Settings.Default}}">
+        <CollectionViewSource x:Key="RecentFiles" Source="{Binding Path=RecentFiles, Source={x:Static local:RecentFile.Default}}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="UpdateTime" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>

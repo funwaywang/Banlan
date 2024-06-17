@@ -142,7 +142,7 @@ namespace Banlan
                             Swatch = new SwatchViewModel(swatch)
                         });
 
-                        Settings.Default.AddRecentFile(new SwatchFileSummary(swatch));
+                        RecentFile.Default.AddRecentFile(new SwatchFileSummary(swatch));
                     }
                 }
             }

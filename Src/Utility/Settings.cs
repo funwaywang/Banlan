@@ -10,13 +10,10 @@ namespace Banlan
 {
     public class Settings
     {
-        private const int MaxRecentFiles = 12;
         public static readonly Settings Default = new Settings();
-        private readonly string FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(Banlan), "Settings.xml");
+        private readonly string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(Banlan), "Settings.xml");
 
         public Dictionary<string, string?> Values { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
-
-        public ObservableCollection<SwatchFileSummary> RecentFiles { get; private set; } = new ObservableCollection<SwatchFileSummary>();
 
         public string? this[string name]
         {
@@ -26,7 +23,7 @@ namespace Banlan
 
         public void Save()
         {
-            var directory = Path.GetDirectoryName(FileName);
+            var directory = Path.GetDirectoryName(fileName);
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -51,31 +48,7 @@ namespace Banlan
                 }
             }
 
-            var recentFiles = dom.CreateElement("recent_files");
-            documentElement.AppendChild(recentFiles);
-            var count = 0;
-            foreach (var file in RecentFiles)
-            {
-                var fileElement = dom.CreateElement("file");
-                if(file.Samples != null)
-                {
-                    fileElement.SetAttribute("samples", string.Join(",", file.Samples.Select(s => ColorHelper.ToHexColor(s))));
-                }
-                fileElement.SetAttribute("update_time", file.UpdateTime.ToString("yyyy/MM/dd HH:mm:ss"));
-                if (file.FileName != null)
-                {
-                    fileElement.InnerText = file.FileName;
-                }
-                recentFiles.AppendChild(fileElement);
-
-                count++;
-                if (count >= MaxRecentFiles)
-                {
-                    break;
-                }
-            }
-
-            using (var fs = new FileStream(FileName, FileMode.Create, FileAccess.Write))
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 dom.Save(fs);
             }
@@ -83,10 +56,10 @@ namespace Banlan
 
         public void Load()
         {
-            if (File.Exists(FileName))
+            if (File.Exists(fileName))
             {
                 var dom = new XmlDocument();
-                using (var fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
+                using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     dom.Load(fs);
                 }
@@ -104,54 +77,7 @@ namespace Banlan
                             }
                         }
                     }
-
-                    if (dom.DocumentElement.SelectNodes("recent_files/file") is XmlNodeList fileNodes)
-                    {
-                        foreach (var node in fileNodes.OfType<XmlElement>())
-                        {
-                            var recentFile = new SwatchFileSummary
-                            {
-                                FileName = node.InnerText,
-                                Samples = (from cs in node.GetAttribute("samples").Split(',')
-                                           let co = ColorHelper.ParseColor(cs)
-                                           where co != null
-                                           select co.Value).ToArray()
-                            };
-
-                            if (DateTime.TryParse(node.GetAttribute("update_time"), out DateTime updateTime))
-                            {
-                                recentFile.UpdateTime = updateTime;
-                            }
-                            else
-                            {
-                                recentFile.UpdateTime = DateTime.Now;
-                            }
-
-                            if (!string.IsNullOrEmpty(recentFile.FileName))
-                            {
-                                RecentFiles.Add(recentFile);
-                            }
-                        }
-                    }
                 }
-            }
-        }
-
-        public void AddRecentFile(SwatchFileSummary swatchFile)
-        {
-            if (!string.IsNullOrEmpty(swatchFile.FileName))
-            {
-                foreach (var old in RecentFiles.Where(rf => string.Equals(rf.FileName, swatchFile.FileName, StringComparison.OrdinalIgnoreCase)).ToList())
-                {
-                    RecentFiles.Remove(old);
-                }
-
-                while (RecentFiles.Count >= MaxRecentFiles)
-                {
-                    RecentFiles.RemoveAt(0);
-                }
-
-                RecentFiles.Add(swatchFile);
             }
         }
 

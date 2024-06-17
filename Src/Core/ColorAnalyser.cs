@@ -34,7 +34,7 @@ namespace Banlan.Core
             return image.TryGetPixel(x, y, out color);
         }
 
-        public Color DetectBackground()
+        private Color DetectBackground()
         {
             if (BackgroundColor == null)
             {
@@ -158,20 +158,20 @@ namespace Banlan.Core
             return (newPalettes, numVectors);
         }
 
-        private (List<Palette> palettes, int numVectors) GetFilteredPalette(double stdDeviations, int paletteSize, Color? exclude, int error, bool ignoreGrey)
-        {
-            (var palettes, var numVectors) = GetPalette(paletteSize, exclude, error, ignoreGrey);
-            var numColors = palettes.Count;
-            var freqSum = palettes.Sum(c => c.Count);
-            var meanFrequency = freqSum / numColors;
-            var stdDevSum = palettes.Sum(c => (c.Count - meanFrequency) * (c.Count - meanFrequency));
-            var stdDevFrequency = Math.Sqrt(stdDevSum / numColors);
+        //private (List<Palette> palettes, int numVectors) GetFilteredPalette(double stdDeviations, int paletteSize, Color? exclude, int error, bool ignoreGrey)
+        //{
+        //    (var palettes, var numVectors) = GetPalette(paletteSize, exclude, error, ignoreGrey);
+        //    var numColors = palettes.Count;
+        //    var freqSum = palettes.Sum(c => c.Count);
+        //    var meanFrequency = freqSum / numColors;
+        //    var stdDevSum = palettes.Sum(c => (c.Count - meanFrequency) * (c.Count - meanFrequency));
+        //    var stdDevFrequency = Math.Sqrt(stdDevSum / numColors);
 
-            var filteredColors = (from c in palettes
-                                  where Math.Abs(c.Count - meanFrequency) < (stdDevFrequency * stdDeviations)
-                                  select new Palette(c.Mean, c.Count, c.Position)).ToList();
-            return (filteredColors, numVectors);
-        }
+        //    var filteredColors = (from c in palettes
+        //                          where Math.Abs(c.Count - meanFrequency) < (stdDevFrequency * stdDeviations)
+        //                          select new Palette(c.Mean, c.Count, c.Position)).ToList();
+        //    return (filteredColors, numVectors);
+        //}
 
         private (List<Palette>? palettes, int numVectors) GetClusteredPalette(int numClusters, int threshold, int paletteSize, Color? exclude, int error, bool ignoreGrey)
         {

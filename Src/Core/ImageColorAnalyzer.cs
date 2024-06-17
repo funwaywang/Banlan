@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BanlanWpfApp1
+namespace Banlan.Core
 {
     //using System;
     //using System.Drawing;

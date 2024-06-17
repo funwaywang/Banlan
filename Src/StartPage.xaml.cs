@@ -26,9 +26,9 @@ namespace Banlan
 
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter is SwatchFileSummary file && Settings.Default.RecentFiles.Contains(file))
+            if (e.Parameter is SwatchFileSummary file)
             {
-                Settings.Default.RecentFiles.Remove(file);
+                RecentFile.Default.RemoveRecentFile(file);
             }
         }
     }
