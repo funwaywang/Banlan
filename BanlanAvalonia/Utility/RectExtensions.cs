@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using Avalonia;
 
 namespace Banlan
 {
-    public record Rect(double X, double Y, double Width, double Height);
-
     public static class RectExtensions
     {
         public static Rect Zoom(this Rect rect, double zoom)
