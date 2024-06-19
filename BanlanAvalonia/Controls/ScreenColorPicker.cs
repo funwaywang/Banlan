@@ -7,6 +7,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace Banlan
 {
@@ -135,34 +140,38 @@ namespace Banlan
         {
             screenShot = null;
 
-            var width = (int)SystemParameters.VirtualScreenWidth;
-            var height = (int)SystemParameters.VirtualScreenHeight;
-            if (width > 0 && height > 0)
+            var screen = (Window.GetTopLevel(this) as Window)?.Screens.Primary;
+            if (screen != null)
             {
-                try
+                var width = (int)screen.Bounds.Width;
+                var height = (int)screen.Bounds.Height;
+                if (width > 0 && height > 0)
                 {
-                    using (var bitmap = new System.Drawing.Bitmap(width, height))
+                    try
                     {
-                        using (var graphics = System.Drawing.Graphics.FromImage(bitmap))
+                        using (var bitmap = new System.Drawing.Bitmap(width, height))
                         {
-                            graphics.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(width, height), System.Drawing.CopyPixelOperation.SourceCopy);
-                            screenShot = new BitmapData(bitmap);
+                            using (var graphics = System.Drawing.Graphics.FromImage(bitmap))
+                            {
+                                graphics.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(width, height), System.Drawing.CopyPixelOperation.SourceCopy);
+                                screenShot = new BitmapData(bitmap);
+                            }
                         }
                     }
-                }
-                catch
-                {
+                    catch
+                    {
+                    }
                 }
             }
         }
 
-        private class PreviewView : UIElement
+        private class PreviewView : Control
         {
             private const int zoom = 6;
             private const int sampleSize = 9; // pixels in source image
             private readonly ScreenColorPicker screenColorPicker;
             private Point _Position;
-            private BitmapSource? SampleImage;
+            private IImage? SampleImage;
 
             public PreviewView(ScreenColorPicker screenColorPicker)
             {
@@ -207,7 +216,7 @@ namespace Banlan
                             var imageHeight = sourceHeight * zoom;
                             var stride = BitmapData.CalculateStride(imageWidth, bitmapData.PixelBytes);
 
-                            SampleImage = BitmapSource.Create(imageWidth, imageHeight, 96, 96, PixelFormats.Bgr32, null, data, stride);
+                            SampleImage = ImageHelper.CreateBitmap(imageWidth, imageHeight, 96, 96, PixelFormats.Bgra8888, data);
                             InvalidateMeasure();
                         }
                     }
@@ -216,14 +225,14 @@ namespace Banlan
 
             protected override Size MeasureCore(Size availableSize)
             {
-                var width = (SampleImage?.PixelWidth ?? sampleSize * zoom) + 2;
-                var height = (SampleImage?.PixelHeight ?? sampleSize * zoom) + 2;
+                var width = (SampleImage?.Size.Width ?? sampleSize * zoom) + 2;
+                var height = (SampleImage?.Size.Height ?? sampleSize * zoom) + 2;
                 return new Size(Math.Min(width, availableSize.Width), Math.Min(height, availableSize.Height));
             }
 
-            protected override void OnRender(DrawingContext drawingContext)
+            public override void Render(DrawingContext drawingContext)
             {
-                base.OnRender(drawingContext);
+                base.Render(drawingContext);
 
                 if (SampleImage == null)
                 {
@@ -246,7 +255,7 @@ namespace Banlan
                     var vBar = new RectangleGeometry(new Rect(rect.X + (rect.Width - zoom) / 2, rect.Y, zoom, rect.Height));
                     var hBar = new RectangleGeometry(new Rect(rect.X, rect.Y + (rect.Height - zoom) / 2, rect.Width, zoom));
                     var clipGeometry = new CombinedGeometry(GeometryCombineMode.Xor, vBar, hBar);
-                    drawingContext.DrawGeometry(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x80, 0x00, 0x00, 0x00)), null, clipGeometry);
+                    drawingContext.DrawGeometry(new SolidColorBrush(Avalonia.Media.Color.FromArgb(0x80, 0x00, 0x00, 0x00)), null, clipGeometry);
                 }
 
                 // draw border

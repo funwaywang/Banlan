@@ -12,11 +12,12 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Banlan.Controls;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Banlan
 {
-    public class RangeSelectionAdorner : Control
+    public class RangeSelectionAdorner : Adorner
     {
         private readonly Pen PenBlack = new Pen(new SolidColorBrush(Color.FromArgb(0x80, 0x00, 0x00, 0x00)), 1);
         private readonly Brush BrushMask = new SolidColorBrush(Color.FromArgb(0x80, 0xff, 0xff, 0xff));
@@ -36,8 +37,8 @@ namespace Banlan
         }
 
         public RangeSelectionAdorner(Control adornedElement)
+            : base(adornedElement)
         {
-            AdornedElement = adornedElement;
             // SnapsToDevicePixels = true;
 
             DragHandlers = new DragHandler[]
@@ -60,23 +61,22 @@ namespace Banlan
                 handler.Width = HandlerSize;
                 handler.Height = HandlerSize;
                 handler.DragDelta += Handler_DragDelta;
-                AddVisualChild(handler);
+
+                VisualChildren.Add(handler);
             }
         }
 
-        public event RoutedEventHandler RangeChanged
+        public event EventHandler<RoutedEventArgs> RangeChanged
         {
             add => AddHandler(RangeChangedEvent, value);
             remove => RemoveHandler(RangeChangedEvent, value);
         }
 
-        public event RoutedEventHandler InvalidClick
+        public event EventHandler<RoutedEventArgs> InvalidClick
         {
             add => AddHandler(InvalidClickEvent, value);
             remove => RemoveHandler(InvalidClickEvent, value);
         }
-
-        public Control AdornedElement { get; init; }
 
         public Rect? Range
         {
@@ -84,7 +84,7 @@ namespace Banlan
             set => SetValue(RangeProperty, value);
         }
 
-        protected override int VisualChildrenCount => DragHandlers?.Length ?? 0;
+        // protected override int VisualChildrenCount => DragHandlers?.Length ?? 0;
 
         public Style? HandlerStyle
         {
@@ -92,15 +92,15 @@ namespace Banlan
             set => SetValue(HandlerStyleProperty, value);
         }
 
-        protected override Visual GetVisualChild(int index)
-        {
-            if (index > -1 && index < DragHandlers.Length)
-            {
-                return DragHandlers[index];
-            }
+        //protected override Visual GetVisualChild(int index)
+        //{
+        //    if (index > -1 && index < DragHandlers.Length)
+        //    {
+        //        return DragHandlers[index];
+        //    }
 
-            return base.GetVisualChild(index);
-        }
+        //    return base.GetVisualChild(index);
+        //}
 
         protected override Size MeasureOverride(Size constraint)
         {
@@ -172,46 +172,49 @@ namespace Banlan
             }
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnPointerMoved(PointerEventArgs e)
         {
-            base.OnMouseMove(e);
+            base.OnPointerMoved(e);
 
-            if (e.LeftButton == MouseButtonState.Pressed && ImageBoxMouseDownPoint is Point downPoint)
+            var point = e.GetCurrentPoint(this);
+            if (point.Properties.IsLeftButtonPressed && ImageBoxMouseDownPoint is Point downPoint)
             {
-                var point = e.GetPosition(this);
-                if (Math.Abs(downPoint.X - point.X) > 2 || Math.Abs(downPoint.Y - point.Y) > 2)
+                if (Math.Abs(downPoint.X - point.Position.X) > 2 || Math.Abs(downPoint.Y - point.Position.Y) > 2)
                 {
                     var adornedSize = AdornedElement.DesiredSize;
-                    var rect = new Rect(Math.Max(0, Math.Min(point.X, downPoint.X)),
-                        Math.Max(0, Math.Min(point.Y, downPoint.Y)),
-                        Math.Abs(point.X - downPoint.X),
-                        Math.Abs(point.Y - downPoint.Y));
-                    rect.Width = Math.Min(rect.Width, adornedSize.Width - rect.Left);
-                    rect.Height = Math.Min(rect.Height, adornedSize.Height - rect.Top);
-                    if (rect.Width > 10 || rect.Height > 10)
+
+                    var left = Math.Max(0, Math.Min(point.Position.X, downPoint.X));
+                    var top = Math.Max(0, Math.Min(point.Position.Y, downPoint.Y));
+                    var width = Math.Abs(point.Position.X - downPoint.X);
+                    var height = Math.Abs(point.Position.Y - downPoint.Y);
+                    width = Math.Min(width, adornedSize.Width - left);
+                    height = Math.Min(height, adornedSize.Height - top);
+
+                    if (width > 10 || height > 10)
                     {
                         isSelectionMode = true;
-                        SetRange(rect);
+                        SetRange(new Rect(left, top, width, height));
                     }
                 }
             }
         }
 
-        protected override void OnMouseDown(MouseButtonEventArgs e)
+        protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
-            base.OnMouseDown(e);
+            base.OnPointerPressed(e);
 
-            if (e.ChangedButton == MouseButton.Left)
+            var point = e.GetCurrentPoint(this);
+            if (point.Properties.IsLeftButtonPressed)
             {
                 isSelectionMode = false;
                 ImageBoxMouseDownPoint = e.GetPosition(this);
-                CaptureMouse();
+                // this.CaptureMouse();
             }
         }
 
-        protected override void OnMouseUp(MouseButtonEventArgs e)
+        protected override void OnPointerReleased(PointerReleasedEventArgs e)
         {
-            base.OnMouseUp(e);
+            base.OnPointerReleased(e);
 
             if (!isSelectionMode && Range != null)
             {
@@ -220,7 +223,7 @@ namespace Banlan
 
             isSelectionMode = false;
             ImageBoxMouseDownPoint = null;
-            ReleaseMouseCapture();
+            // ReleaseMouseCapture();
         }
 
         private void Handler_DragDelta(object? sender, VectorEventArgs e)

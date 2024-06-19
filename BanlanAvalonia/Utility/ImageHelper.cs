@@ -1,6 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace Banlan
 {
@@ -19,6 +24,25 @@ namespace Banlan
             //bitmap.CacheOption = BitmapCacheOption.OnLoad;
             //bitmap.EndInit();
             //bitmap.Freeze();
+            return bitmap;
+        }
+
+        public static Bitmap CreateBitmap(int width, int height, int dpiX, int dpiY, PixelFormat pixelFormat, byte[] data)
+        { 
+            // Standard may need to change on some devices 
+            Vector dpi = new Vector(dpiX, dpiY);
+
+            var bitmap = new WriteableBitmap(
+                new PixelSize(width, height),
+                dpi,
+                pixelFormat,
+                AlphaFormat.Premul);
+
+            using (var frameBuffer = bitmap.Lock())
+            {
+                Marshal.Copy(data, 0, frameBuffer.Address, data.Length);
+            }
+
             return bitmap;
         }
 

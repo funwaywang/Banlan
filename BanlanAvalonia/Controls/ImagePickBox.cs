@@ -13,6 +13,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Banlan.Controls;
 
 namespace Banlan
 {
@@ -27,7 +28,7 @@ namespace Banlan
         public static readonly RoutedEvent PointMovedEvent = RoutedEvent.Register<ImagePickBox, RoutedEventArgs>(nameof(PointMoved), RoutingStrategies.Bubble);
         public static readonly StyledProperty<IImage?> ImageProperty = AvaloniaProperty.Register<ImagePickBox, IImage?>(nameof(Image));
         public static readonly StyledProperty<IEnumerable<ColorPoint>> ColorPointsProperty = AvaloniaProperty.Register<ImagePickBox, IEnumerable<ColorPoint>>(nameof(ColorPoints), []);
-        public static readonly StyledProperty<double> ZoomProperty = AvaloniaProperty.Register<ImagePickBox, double>(nameof(Zoom),1.0, validate: v => v is double zoom && zoom > 0.0);
+        public static readonly StyledProperty<double> ZoomProperty = AvaloniaProperty.Register<ImagePickBox, double>(nameof(Zoom), 1.0, validate: v => v is double zoom && zoom > 0.0);
         public static readonly StyledProperty<ColorPoint?> SelectedPointProperty = AvaloniaProperty.Register<ImagePickBox, ColorPoint?>(nameof(SelectedPoint), defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
         public static readonly StyledProperty<Rect?> SelectedRangeProperty = AvaloniaProperty.Register<ImagePickBox, Rect?>(nameof(SelectedRange));
         public static readonly StyledProperty<Style?> PickHandlerStyleProperty = AvaloniaProperty.Register<ImagePickBox, Style?>(nameof(PickHandlerStyle));
@@ -52,11 +53,11 @@ namespace Banlan
                 {
                     if (rangeSelectionAdorner != null && rangeSelectionAdorner.Parent == null)
                     {
-                        adornerLayer.Add(rangeSelectionAdorner);
+                        adornerLayer.Children.Add(rangeSelectionAdorner);
                     }
                     if (pickHandlersAdorner != null && pickHandlersAdorner.Parent == null)
                     {
-                        adornerLayer.Add(pickHandlersAdorner);
+                        adornerLayer.Children.Add(pickHandlersAdorner);
                     }
                 }
             }
@@ -116,16 +117,16 @@ namespace Banlan
                 {
                     rangeSelectionAdorner = new RangeSelectionAdorner(PreviewImageBox)
                     {
-                        HandlerStyle = this.TryFindResource("SizingHandlerStyle") as Style
+                        HandlerStyle = e.NameScope.Find("SizingHandlerStyle") as Style
                     };
-                    rangeSelectionAdorner.Bind(VisibilityProperty, new Binding
+                    rangeSelectionAdorner.Bind(IsVisibleProperty, new Binding
                     {
                         Source = this,
                         Path = nameof(SelectedRange),
                         Converter = new NullToVisibilityConverter()
                     });
                     rangeSelectionAdorner.RangeChanged += RangeSelectionAdorner_RangeChanged;
-                    adornerLayer.Add(rangeSelectionAdorner);
+                    adornerLayer.Children.Add(rangeSelectionAdorner);
 
                     pickHandlersAdorner = new PickHandlersAdorner(PreviewImageBox, this);
                     pickHandlersAdorner.Bind(PickHandlersAdorner.ColorPointsProperty, new Binding
@@ -134,12 +135,12 @@ namespace Banlan
                         Path = nameof(ColorPoints),
                         Mode = BindingMode.OneWay
                     });
-                    adornerLayer.Add(pickHandlersAdorner);
+                    adornerLayer.Children.Add(pickHandlersAdorner);
                 }
 
-                PreviewImageBox.MouseDown += PreviewImageBox_MouseDown;
-                PreviewImageBox.MouseMove += PreviewImageBox_MouseMove;
-                PreviewImageBox.MouseUp += PreviewImageBox_MouseUp;
+                PreviewImageBox.PointerPressed += PreviewImageBox_MouseDown;
+                PreviewImageBox.PointerMoved += PreviewImageBox_MouseMove;
+                PreviewImageBox.PointerReleased += PreviewImageBox_MouseUp;
             }
         }
 
@@ -158,30 +159,34 @@ namespace Banlan
             }
         }
 
-        private void PreviewImageBox_MouseMove(object sender, MouseEventArgs e)
+        private void PreviewImageBox_MouseMove(object? sender, PointerEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed
+            var point = e.GetCurrentPoint(PreviewImageBox);
+            if (point.Properties.IsLeftButtonPressed
                 && ImageBoxMouseDownPoint is Point downPoint
                 && PreviewImageBox is Image previewImageBox)
             {
-                var point = e.GetPosition(PreviewImageBox);
                 if (!isSelectionMode)
                 {
                     SelectedRange = null;
                 }
 
-                if (Math.Abs(downPoint.X - point.X) > 2 || Math.Abs(downPoint.Y - point.Y) > 2)
+                if (Math.Abs(downPoint.X - point.Position.X) > 2 || Math.Abs(downPoint.Y - point.Position.Y) > 2)
                 {
                     var adornedSize = previewImageBox.DesiredSize;
-                    var rect = new Rect(Math.Max(0, Math.Min(point.X, downPoint.X)),
-                        Math.Max(0, Math.Min(point.Y, downPoint.Y)),
-                        Math.Abs(point.X - downPoint.X),
-                        Math.Abs(point.Y - downPoint.Y));
-                    rect.Width = Math.Min(rect.Width, adornedSize.Width - rect.Left);
-                    rect.Height = Math.Min(rect.Height, adornedSize.Height - rect.Top);
-                    if (rect.Width > 10 || rect.Height > 10)
+
+                    var left = Math.Max(0, Math.Min(point.Position.X, downPoint.X));
+                    var top = Math.Max(0, Math.Min(point.Position.Y, downPoint.Y));
+                    var width = Math.Abs(point.Position.X - downPoint.X);
+                    var height = Math.Abs(point.Position.Y - downPoint.Y);
+                    width = Math.Min(width, adornedSize.Width - left);
+                    height = Math.Min(height, adornedSize.Height - top);
+
+                    if (width > 10 || height > 10)
                     {
                         isSelectionMode = true;
+
+                        var rect = new Rect(left, top, width, height);
                         SelectedRange = rect.Unzoom(Zoom);
                         if (rangeSelectionAdorner != null)
                         {
@@ -192,17 +197,18 @@ namespace Banlan
             }
         }
 
-        private void PreviewImageBox_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PreviewImageBox_MouseDown(object? sender, PointerPressedEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            var point = e.GetCurrentPoint(PreviewImageBox);
+            if (point.Properties.IsLeftButtonPressed)
             {
                 isSelectionMode = false;
                 ImageBoxMouseDownPoint = e.GetPosition(PreviewImageBox);
-                PreviewImageBox?.CaptureMouse();
+                // PreviewImageBox?.CaptureMouse();
             }
         }
 
-        private void PreviewImageBox_MouseUp(object sender, MouseButtonEventArgs e)
+        private void PreviewImageBox_MouseUp(object? sender, PointerReleasedEventArgs e)
         {
             if (!isSelectionMode && SelectedRange != null)
             {
@@ -211,10 +217,10 @@ namespace Banlan
 
             isSelectionMode = false;
             ImageBoxMouseDownPoint = null;
-            PreviewImageBox?.ReleaseMouseCapture();
+            // PreviewImageBox?.ReleaseMouseCapture();
         }
 
-        private void RangeSelectionAdorner_RangeChanged(object sender, RoutedEventArgs e)
+        private void RangeSelectionAdorner_RangeChanged(object? sender, RoutedEventArgs e)
         {
             if (rangeSelectionAdorner?.Range is Rect rect)
             {
@@ -228,10 +234,10 @@ namespace Banlan
 
         private void Thumb_DragDelta(object? sender, VectorEventArgs e)
         {
-            if (Image != null && (e.OriginalSource as Thumb)?.DataContext is ColorPoint colorPoint)
+            if (Image != null && (e.Source as Thumb)?.DataContext is ColorPoint colorPoint)
             {
-                var x = Math.Max(0, Math.Min(Image.PixelWidth, colorPoint.X + e.HorizontalChange / Zoom));
-                var y = Math.Max(0, Math.Min(Image.PixelHeight, colorPoint.Y + e.VerticalChange / Zoom));
+                var x = Math.Max(0, Math.Min(Image.Size.Width, colorPoint.X + e.Vector.X / Zoom));
+                var y = Math.Max(0, Math.Min(Image.Size.Height, colorPoint.Y + e.Vector.Y / Zoom));
 
                 if (SelectedRange is Rect rect)
                 {
@@ -256,7 +262,7 @@ namespace Banlan
         {
             if (PreviewImageBox != null && Image != null)
             {
-                var zoom = Math.Min(PreviewImageBox.DesiredSize.Width / Image.PixelWidth, PreviewImageBox.DesiredSize.Height / Image.PixelHeight);
+                var zoom = Math.Min(PreviewImageBox.DesiredSize.Width / Image.Size.Width, PreviewImageBox.DesiredSize.Height / Image.Size.Height);
                 Zoom = zoom > 0 ? zoom : 1.0;
             }
             else
@@ -271,9 +277,10 @@ namespace Banlan
         {
             private readonly ImagePickBox parent;
             private readonly List<Thumb> thumbs = new List<Thumb>();
-            public static readonly DependencyProperty ColorPointsProperty = ImagePickBox.ColorPointsProperty.AddOwner(typeof(PickHandlersAdorner));
 
-            public PickHandlersAdorner(UIElement adornedElement, ImagePickBox parent)
+            public static readonly StyledProperty<IEnumerable<ColorPoint>> ColorPointsProperty = ImagePickBox.ColorPointsProperty.AddOwner<PickHandlersAdorner>();
+
+            public PickHandlersAdorner(Control adornedElement, ImagePickBox parent)
                 : base(adornedElement)
             {
                 this.parent = parent;
@@ -285,9 +292,9 @@ namespace Banlan
                 set => SetValue(ColorPointsProperty, value);
             }
 
-            protected override int VisualChildrenCount => thumbs.Count;
+            // protected override int VisualChildrenCount => thumbs.Count;
 
-            protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+            protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
             {
                 base.OnPropertyChanged(e);
 
@@ -319,7 +326,8 @@ namespace Banlan
 
             private void ClearThumbs()
             {
-                thumbs.ForEach(t => RemoveVisualChild(t));
+                VisualChildren.Clear();
+                // thumbs.ForEach(t => RemoveVisualChild(t));
                 thumbs.Clear();
             }
 
@@ -331,7 +339,8 @@ namespace Banlan
                     if (thumb != null)
                     {
                         thumbs.Remove(thumb);
-                        RemoveVisualChild(thumb);
+                        VisualChildren.Remove(thumb);
+                        // RemoveVisualChild(thumb);
                     }
                 }
             }
@@ -343,15 +352,16 @@ namespace Banlan
                     var thumb = new Thumb
                     {
                         DataContext = colorPoint,
-                        Style = parent.PickHandlerStyle
+                        // Style = parent.PickHandlerStyle 
                     };
                     thumb.DragDelta += Thumb_DragDelta;
                     thumbs.Add(thumb);
-                    AddVisualChild(thumb);
+                    // AddVisualChild(thumb);
+                    VisualChildren.Add(thumb);
                 }
             }
 
-            private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+            private void Thumb_DragDelta(object? sender, VectorEventArgs e)
             {
                 parent.Thumb_DragDelta(sender, e);
             }
@@ -377,15 +387,15 @@ namespace Banlan
                 InvalidateVisual();
             }
 
-            protected override Visual GetVisualChild(int index)
-            {
-                if (index > -1 && index < thumbs.Count)
-                {
-                    return thumbs[index];
-                }
+            //protected override Visual GetVisualChild(int index)
+            //{
+            //    if (index > -1 && index < thumbs.Count)
+            //    {
+            //        return thumbs[index];
+            //    }
 
-                return base.GetVisualChild(index);
-            }
+            //    return base.GetVisualChild(index);
+            //}
 
             protected override Size MeasureOverride(Size constraint)
             {
